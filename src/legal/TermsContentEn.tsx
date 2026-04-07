@@ -8,8 +8,8 @@ export function TermsContentEn() {
         <p>These Terms of Service (the <strong>"Terms"</strong>) constitute a binding agreement between you (the <strong>"User"</strong> or <strong>"you"</strong>) and the Operator. By using the Service, you agree to be bound by these Terms in their entirety. If you do not agree, please refrain from using the Service.</p>
         <p>Key definitions:</p>
         <ul>
-          <li><strong>"Agent"</strong> — The personal AI assistant created for you as part of the Service, operating via WhatsApp.</li>
-          <li><strong>"Account"</strong> — Your user account, identified by your WhatsApp phone number.</li>
+          <li><strong>"Agent"</strong> — The personal AI assistant created for you as part of the Service, accessible via messaging platforms such as WhatsApp, Telegram, and others.</li>
+          <li><strong>"Account"</strong> — Your user account, identified by your phone number or user ID on the messaging platform.</li>
           <li><strong>"Subscription"</strong> — The monthly payment plan you have selected.</li>
           <li><strong>"Tokens"</strong> — Processing units consumed by the AI model. Each interaction with the Agent consumes tokens based on its scope.</li>
           <li><strong>"User Content"</strong> — Any information, message, file, image, voice recording, or other material you send or transmit through the Service.</li>
@@ -19,7 +19,7 @@ export function TermsContentEn() {
       </LegalSection>
 
       <LegalSection id="service" title="2. Description of the Service">
-        <p>Agentiko provides an AI-powered personal assistant accessible via WhatsApp. The Service includes:</p>
+        <p>Agentiko provides an AI-powered personal assistant accessible via messaging platforms such as WhatsApp, Telegram, and others. The Service includes:</p>
         <ul>
           <li>Intelligent conversation in natural Hebrew and other languages</li>
           <li>Processing and responding to text messages, images, documents, voice messages, and other media</li>
@@ -29,7 +29,7 @@ export function TermsContentEn() {
           <li>Connections to third-party services such as Gmail and Google Calendar (current and future integrations)</li>
         </ul>
         <p><strong>Important disclosure:</strong> The Service is powered by large language models (LLMs) from third-party providers. The Agent is not a human. All responses are generated automatically by an AI system.</p>
-        <p>The Service operates through a shared WhatsApp number — multiple users communicate via the same phone number, with each Agent fully isolated and operating in a separate, secure environment.</p>
+        <p>On some messaging platforms, the Service may operate through a shared number — multiple users communicate via the same number, with each Agent fully isolated and operating in a separate, secure environment.</p>
       </LegalSection>
 
       <LegalSection id="eligibility" title="3. Eligibility and Registration">
@@ -37,14 +37,14 @@ export function TermsContentEn() {
         <ul>
           <li>Be at least 18 years of age</li>
           <li>Have legal capacity to enter into a binding agreement under applicable law</li>
-          <li>Have an active WhatsApp account</li>
+          <li>Have an active account on a supported messaging platform (e.g., WhatsApp, Telegram, or others)</li>
           <li>Provide accurate and truthful information during registration</li>
         </ul>
         <p>Only one account is permitted per phone number. Agentiko reserves the right to refuse service or cancel an account at its discretion, subject to applicable law.</p>
       </LegalSection>
 
       <LegalSection id="account" title="4. User Account">
-        <p>Your WhatsApp phone number serves as the primary identifier for your account. You are responsible for maintaining the security of your device and for all activity conducted through your account.</p>
+        <p>Your phone number or messaging platform user ID serves as the primary identifier for your account. You are responsible for maintaining the security of your device and for all activity conducted through your account.</p>
         <ul>
           <li>Do not transfer, share, or sell access to your account or Agent</li>
           <li>Notify us immediately of any unauthorized use of your account</li>
@@ -79,7 +79,7 @@ export function TermsContentEn() {
           <li><strong>Cancellation after the cooling-off period:</strong> Takes effect within 3 business days from the date of cancellation notice, per Section 13D of the Consumer Protection Law. No prorated refund for the already-paid period.</li>
           <li><strong>Special populations:</strong> New immigrants, senior citizens, and persons with disabilities are entitled to an extended cancellation period of 4 months under law.</li>
         </ul>
-        <p><strong>How to cancel:</strong> Send a cancellation message to your Agent via WhatsApp, or email us at the address listed in the "Contact" section. Upon cancellation, your data will be deleted in accordance with our Privacy Policy.</p>
+        <p><strong>How to cancel:</strong> Send a cancellation message to your Agent, or email us at the address listed in the "Contact" section. Upon cancellation, your data will be deleted in accordance with our Privacy Policy.</p>
       </LegalSection>
 
       <LegalSection id="acceptable-use" title="8. Acceptable Use Policy">
@@ -156,14 +156,14 @@ export function TermsContentEn() {
 
       <LegalSection id="communications" title="14. Notices and Communications">
         <ul>
-          <li><strong>Service notices:</strong> Notices regarding your account, changes to Terms, or pricing will be sent via the WhatsApp conversation with your Agent and/or by email. These notices will be sent regardless of your communication preferences.</li>
+          <li><strong>Service notices:</strong> Notices regarding your account, changes to Terms, or pricing will be sent via the Agent and/or by email. These notices will be sent regardless of your communication preferences.</li>
           <li><strong>Marketing communications:</strong> In accordance with Amendment 40 to the Communications Law (Telecommunications and Broadcasting), 5742-1982, promotional messages will be sent only after obtaining your explicit prior consent. You may withdraw this consent at any time.</li>
         </ul>
       </LegalSection>
 
       <LegalSection id="changes" title="15. Changes to the Service and Terms">
         <ul>
-          <li>Agentiko may update these Terms from time to time. Material changes will take effect after at least 30 days' advance notice via WhatsApp and/or email.</li>
+          <li>Agentiko may update these Terms from time to time. Material changes will take effect after at least 30 days' advance notice via the Agent and/or email.</li>
           <li>Continued use of the Service after the notice period constitutes acceptance of the updated Terms.</li>
           <li>Agentiko may modify, add, or discontinue features of the Service. Material changes will be communicated with advance notice.</li>
           <li>If you disagree with the changes, you may cancel your subscription per Section 7.</li>

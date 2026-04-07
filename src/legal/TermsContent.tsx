@@ -192,7 +192,7 @@ export function TermsContent() {
         <p>לכל שאלה, בקשה או פנייה בנוגע לתנאי שימוש אלו:</p>
         <ul>
           <li><strong>שם:</strong> שחר שביט — פיתוח תוכנה</li>
-          <li><strong>דוא"ל:</strong> support@agentiko.co.il</li>
+          <li><strong>דוא"ל:</strong> me@shahar.sh</li>
           <li><strong>וואטסאפ:</strong> ניתן לפנות ישירות דרך הסוכן שלך</li>
         </ul>
       </LegalSection>

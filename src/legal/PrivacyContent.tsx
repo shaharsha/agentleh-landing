@@ -243,7 +243,7 @@ export function PrivacyContent() {
           <li><strong>התנגדות (Objection):</strong> להתנגד לפעילויות עיבוד מסוימות.</li>
           <li><strong>ביטול הסכמה (Withdraw consent):</strong> לבטל הסכמה לאינטגרציות או להודעות שיווקיות בכל עת.</li>
         </ul>
-        <p><strong>כיצד לממש זכויות:</strong> פנו בדוא"ל ל-support@agentiko.co.il או שלחו הודעה לסוכן שלכם בוואטסאפ. אנו עשויים לאמת את זהותכם לפני טיפול בבקשה. לא ייגבה תשלום עבור בקשות סבירות.</p>
+        <p><strong>כיצד לממש זכויות:</strong> פנו בדוא"ל ל-me@shahar.sh או שלחו הודעה לסוכן שלכם בוואטסאפ. אנו עשויים לאמת את זהותכם לפני טיפול בבקשה. לא ייגבה תשלום עבור בקשות סבירות.</p>
       </LegalSection>
 
       <LegalSection id="minors" title="12. פרטיות קטינים">
@@ -274,7 +274,7 @@ export function PrivacyContent() {
         <p>לכל שאלה, בקשה או פנייה בנושא פרטיות:</p>
         <ul>
           <li><strong>שם:</strong> שחר שביט — פיתוח תוכנה</li>
-          <li><strong>דוא"ל:</strong> support@agentiko.co.il</li>
+          <li><strong>דוא"ל:</strong> me@shahar.sh</li>
           <li><strong>וואטסאפ:</strong> ניתן לפנות ישירות דרך הסוכן שלך</li>
         </ul>
         <p>אנו מתחייבים להשיב לפניות בנושא פרטיות בתוך 30 יום.</p>

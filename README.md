@@ -29,4 +29,4 @@ Env vars (`.env`):
 
 ## Deploy
 
-Push to `main` auto-deploys prod. Push to `develop` auto-deploys dev. Render static site with `npm run build` → `dist/`.
+GitHub Actions CI/CD (lint + build → trigger Render deploy). Push to `develop` deploys dev. Merge PR to `main` deploys prod. Branch protection requires PRs to `main`.

@@ -1,8 +1,25 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 const APP_URL = 'https://app.agentiko.io'
 
 export default function App() {
+  const [page, setPage] = useState(window.location.pathname)
+
+  useEffect(() => {
+    const onPop = () => setPage(window.location.pathname)
+    window.addEventListener('popstate', onPop)
+    return () => window.removeEventListener('popstate', onPop)
+  }, [])
+
+  function navigate(path: string) {
+    history.pushState(null, '', path)
+    setPage(path)
+    window.scrollTo(0, 0)
+  }
+
+  if (page === '/terms') return <LegalPage title="תנאי שימוש" onBack={() => navigate('/')} />
+  if (page === '/privacy') return <LegalPage title="מדיניות פרטיות" onBack={() => navigate('/')} />
+
   return (
     <div className="min-h-screen">
       <Nav />
@@ -264,6 +281,11 @@ function FinalCTA() {
 function Footer() {
   return (
     <footer className="py-6 text-center text-[13px] text-text-muted border-t border-border-light bg-surface">
+      <div className="flex items-center justify-center gap-4 mb-1">
+        <a href="/terms" onClick={(e) => { e.preventDefault(); history.pushState(null, '', '/terms'); window.dispatchEvent(new PopStateEvent('popstate')) }} className="hover:text-text-secondary transition-colors">תנאי שימוש</a>
+        <span>·</span>
+        <a href="/privacy" onClick={(e) => { e.preventDefault(); history.pushState(null, '', '/privacy'); window.dispatchEvent(new PopStateEvent('popstate')) }} className="hover:text-text-secondary transition-colors">מדיניות פרטיות</a>
+      </div>
       &copy; 2026 Agentiko. כל הזכויות שמורות.
     </footer>
   )
@@ -287,5 +309,31 @@ function Section({ title, subtitle, children, bg }: {
         {children}
       </div>
     </section>
+  )
+}
+
+/* ── Legal Page ───────────────────────────── */
+
+function LegalPage({ title, onBack }: { title: string; onBack: () => void }) {
+  return (
+    <div className="min-h-screen section-gradient-hero">
+      <div className="max-w-[640px] mx-auto px-8 py-20">
+        <button onClick={onBack} className="text-[14px] text-brand font-medium hover:underline cursor-pointer mb-8 flex items-center gap-1">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 12H5"/><polyline points="12 19 5 12 12 5"/></svg>
+          חזרה
+        </button>
+        <div className="glass-card-elevated rounded-[22px] p-8">
+          <h1 className="text-[28px] font-bold tracking-[-0.6px] mb-6">{title}</h1>
+          <div className="text-[15px] text-text-secondary leading-relaxed space-y-4">
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.</p>
+            <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+            <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+            <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.</p>
+            <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident.</p>
+          </div>
+          <p className="text-[13px] text-text-muted mt-8">עדכון אחרון: אפריל 2026</p>
+        </div>
+      </div>
+    </div>
   )
 }

@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 
-const APP_URL = import.meta.env.VITE_APP_URL || 'https://app.agentiko.io'
+const APP_URL = import.meta.env.VITE_APP_URL
 
 export default function App() {
   const [page, setPage] = useState(window.location.pathname)

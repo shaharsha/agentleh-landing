@@ -18,17 +18,17 @@ export default function App() {
   )
 }
 
-/* ── Nav ───────────────────────────────────── */
+/* ── Nav ─────────────────────────────────── */
 
 function Nav() {
   return (
-    <nav className="glass fixed top-0 left-0 right-0 z-50 px-6 py-2.5">
+    <nav className="glass-nav fixed top-0 left-0 right-0 z-50 px-6 py-2.5">
       <div className="max-w-[1080px] mx-auto flex items-center justify-between">
         <a href="#" className="flex items-center gap-2 text-[18px] font-bold tracking-[-0.3px] text-text-primary no-underline">
           <span className="w-2 h-2 rounded-full bg-brand animate-pulse" />
           Agentiko
         </a>
-        <a href={APP_URL} className="btn-brand !px-5 !py-2 !text-[13px]">
+        <a href={APP_URL} className="btn-brand !px-5 !py-2 !text-[13px] !shadow-[0_2px_8px_rgba(212,98,43,0.2)]">
           התחל עכשיו
         </a>
       </div>
@@ -36,18 +36,15 @@ function Nav() {
   )
 }
 
-/* ── Hero ──────────────────────────────────── */
+/* ── Hero ─────────────────────────────────── */
 
 function Hero() {
   return (
-    <section className="pt-[140px] pb-14 text-center mesh-bg relative overflow-hidden">
-      <div className="absolute inset-0 pointer-events-none" style={{
-        background: 'radial-gradient(ellipse 80% 60% at 50% 0%, rgba(212,98,43,0.06) 0%, transparent 70%)',
-      }} />
+    <section className="pt-[140px] pb-16 section-gradient-hero relative overflow-hidden">
       <div className="max-w-[1080px] mx-auto px-8 relative">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
           <div className="text-right md:text-right text-center">
-            <div className="inline-flex items-center gap-1.5 bg-brand-50 text-brand px-3.5 py-1 rounded-full text-[13px] font-semibold border border-brand/15 mb-6">
+            <div className="glass-pill inline-flex items-center gap-1.5 text-brand px-3.5 py-1.5 rounded-full text-[13px] font-semibold mb-6">
               <span className="w-1.5 h-1.5 rounded-full bg-brand animate-pulse" />
               100 מקומות ראשונים בלבד
             </div>
@@ -55,10 +52,10 @@ function Hero() {
               העוזר האישי שלך<br />
               <span className="relative inline-block">
                 בוואטסאפ
-                <span className="absolute bottom-1 -right-1 -left-1 h-3.5 bg-gradient-to-l from-brand/15 to-brand/5 rounded -z-10" />
+                <span className="absolute bottom-1 -right-1 -left-1 h-3.5 bg-gradient-to-l from-brand/20 to-brand/5 rounded -z-10" />
               </span>
             </h1>
-            <p className="text-[17px] text-text-secondary leading-relaxed mb-7 max-w-full">
+            <p className="text-[17px] text-text-secondary leading-relaxed mb-7">
               מסכם מיילים, קובע פגישות, כותב תכנים, מנתח מידע, מזהה כשלים ועושה סדר בכל הבלאגן. מחובר לכל הכלים שלך. מותקן ב3 דקות.
             </p>
             <div className="flex flex-col items-start md:items-start items-center gap-2.5">
@@ -67,7 +64,7 @@ function Hero() {
             </div>
           </div>
           <div>
-            <img src="/hero.jpg" alt="Agentiko" className="w-full rounded-[20px] shadow-[0_24px_64px_rgba(0,0,0,0.14),0_8px_24px_rgba(0,0,0,0.06)] hover:scale-[1.02] hover:-translate-y-1 transition-all duration-500" />
+            <img src="/hero.jpg" alt="Agentiko" className="w-full rounded-[22px] shadow-[0_24px_64px_rgba(0,0,0,0.14),0_8px_24px_rgba(0,0,0,0.06)] hover:scale-[1.02] hover:-translate-y-1 transition-all duration-500" />
           </div>
         </div>
       </div>
@@ -75,7 +72,7 @@ function Hero() {
   )
 }
 
-/* ── WhatsApp Demo ─────────────────────────── */
+/* ── WhatsApp Demo ────────────────────────── */
 
 function WhatsAppDemo() {
   const chatRef = useRef<HTMLDivElement>(null)
@@ -105,11 +102,11 @@ function WhatsAppDemo() {
   }, [])
 
   return (
-    <Section title="ככה זה נראה כל בוקר ב7:00" subtitle="הסוכן שלך כבר סרק את המיילים, בדק את היומן, זיהה כשלים. הכל מוכן בוואטסאפ לפני שקמת.">
+    <Section title="ככה זה נראה כל בוקר ב7:00" subtitle="הסוכן שלך כבר סרק את המיילים, בדק את היומן, זיהה כשלים. הכל מוכן בוואטסאפ לפני שקמת." bg="gradient-alt">
       <div className="max-w-[380px] mx-auto">
-        <div className="glass-elevated rounded-[28px] overflow-hidden">
-          <div className="h-6 bg-surface-soft flex items-center justify-center">
-            <span className="w-[60px] h-1 bg-border rounded-full" />
+        <div className="phone-glass rounded-[28px] overflow-hidden">
+          <div className="h-6 bg-white/40 flex items-center justify-center">
+            <span className="w-[60px] h-1 bg-black/10 rounded-full" />
           </div>
           <div className="bg-[#075E54] px-3 py-2 flex items-center gap-2 text-white">
             <div className="w-7 h-7 rounded-full bg-brand flex items-center justify-center text-[12px] font-bold">A</div>
@@ -131,7 +128,7 @@ function WhatsAppDemo() {
   )
 }
 
-/* ── Features ──────────────────────────────── */
+/* ── Features ─────────────────────────────── */
 
 const FEATURES = [
   { icon: '📧', title: 'סיכום מיילים וזיהוי כשלים', desc: 'עובר על כל המיילים, מסנן ספאם, מזהה מיילים שנפלו בין הכיסאות.', tag: 'מונע נזקים' },
@@ -144,14 +141,14 @@ const FEATURES = [
 
 function Features() {
   return (
-    <Section title="לא סתם עוזר. עובד אמיתי." subtitle="הנה מה שהסוכן שלך עושה כל יום, בלי שתבקש">
+    <Section title="לא סתם עוזר. עובד אמיתי." subtitle="הנה מה שהסוכן שלך עושה כל יום, בלי שתבקש" bg="gradient">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {FEATURES.map((f) => (
-          <div key={f.title} className="glass rounded-[14px] p-6 hover:shadow-[0_8px_24px_rgba(212,98,43,0.08),0_16px_48px_rgba(0,0,0,0.06)] hover:-translate-y-1 transition-all duration-300 cursor-default">
+          <div key={f.title} className="glass-card glass-card-hover rounded-[14px] p-6 cursor-default">
             <div className="text-[28px] mb-3">{f.icon}</div>
             <h3 className="text-[16px] font-bold mb-1.5">{f.title}</h3>
             <p className="text-[13.5px] text-text-secondary leading-relaxed">{f.desc}</p>
-            <span className="inline-block mt-2.5 text-[11px] text-brand bg-brand-50 px-2 py-0.5 rounded-full font-semibold">{f.tag}</span>
+            <span className="inline-block mt-2.5 text-[11px] text-brand bg-brand-50 px-2.5 py-0.5 rounded-full font-semibold">{f.tag}</span>
           </div>
         ))}
       </div>
@@ -159,7 +156,7 @@ function Features() {
   )
 }
 
-/* ── Personas ──────────────────────────────── */
+/* ── Personas ─────────────────────────────── */
 
 const PERSONAS = [
   { emoji: '⚖️', role: 'עורכת דין', need: 'מעקב לקוחות ותיקים' },
@@ -178,10 +175,10 @@ const PERSONAS = [
 
 function Personas() {
   return (
-    <Section title="לכל מי שצריך עוזר אישי" subtitle="לא משנה מה התפקיד שלך. אם יש לך מיילים, יומן ומשימות — יש לך סוכן." bg="soft">
+    <Section title="לכל מי שצריך עוזר אישי" subtitle="לא משנה מה התפקיד שלך. אם יש לך מיילים, יומן ומשימות — יש לך סוכן." bg="gradient-alt">
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2.5">
         {PERSONAS.map((p) => (
-          <div key={p.role} className="glass rounded-[14px] p-5 text-center hover:-translate-y-0.5 hover:border-brand/15 transition-all duration-300">
+          <div key={p.role} className="glass-card glass-card-hover rounded-[14px] p-5 text-center cursor-default">
             <div className="text-[32px] mb-2">{p.emoji}</div>
             <div className="text-[14px] font-bold mb-0.5">{p.role}</div>
             <div className="text-[12px] text-text-muted">{p.need}</div>
@@ -192,7 +189,7 @@ function Personas() {
   )
 }
 
-/* ── How It Works ──────────────────────────── */
+/* ── How It Works ─────────────────────────── */
 
 const STEPS = [
   { num: '1', title: 'משלמים ומקבלים הודעה', desc: 'תוך 3 דקות הסוכן שלך שולח לך הודעה ראשונה בוואטסאפ.' },
@@ -202,11 +199,11 @@ const STEPS = [
 
 function HowItWorks() {
   return (
-    <Section title="3 צעדים. 3 דקות. אפס טכנולוגיה." subtitle="">
+    <Section title="3 צעדים. 3 דקות. אפס טכנולוגיה." subtitle="" bg="gradient">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-[800px] mx-auto">
         {STEPS.map((s) => (
-          <div key={s.num} className="glass-elevated rounded-[22px] p-6 text-center">
-            <div className="w-12 h-12 rounded-full bg-brand text-white text-[20px] font-bold flex items-center justify-center mx-auto mb-4 shadow-[0_8px_24px_rgba(212,98,43,0.2)]">
+          <div key={s.num} className="glass-card rounded-[22px] p-6 text-center">
+            <div className="step-num w-12 h-12 rounded-full text-white text-[20px] font-bold flex items-center justify-center mx-auto mb-4">
               {s.num}
             </div>
             <h3 className="text-[16px] font-bold mb-2">{s.title}</h3>
@@ -218,12 +215,12 @@ function HowItWorks() {
   )
 }
 
-/* ── Pricing ───────────────────────────────── */
+/* ── Pricing ──────────────────────────────── */
 
 function Pricing() {
   return (
-    <Section title="עוזר אישי ב₪8 ליום" subtitle="" bg="soft">
-      <div className="glass-elevated rounded-[22px] p-8 max-w-[480px] mx-auto text-center">
+    <Section title="עוזר אישי ב₪8 ליום" subtitle="" bg="gradient-alt">
+      <div className="pricing-glass rounded-[22px] p-8 max-w-[480px] mx-auto text-center">
         <div className="text-[48px] font-extrabold tracking-[-2px] text-text-primary mb-1">
           ₪249<span className="text-[20px] font-normal text-text-muted mr-1">/חודש</span>
         </div>
@@ -244,11 +241,11 @@ function Pricing() {
   )
 }
 
-/* ── Final CTA ─────────────────────────────── */
+/* ── Final CTA ────────────────────────────── */
 
 function FinalCTA() {
   return (
-    <section className="py-20 mesh-bg text-center px-8">
+    <section className="py-20 section-gradient-hero text-center px-8">
       <div className="max-w-[560px] mx-auto">
         <h2 className="text-[clamp(28px,4.5vw,38px)] font-bold tracking-[-0.6px] mb-3">
           מחר בבוקר יש לך עובד חדש
@@ -262,26 +259,27 @@ function FinalCTA() {
   )
 }
 
-/* ── Footer ────────────────────────────────── */
+/* ── Footer ───────────────────────────────── */
 
 function Footer() {
   return (
-    <footer className="py-6 text-center text-[13px] text-text-muted border-t border-border-light">
+    <footer className="py-6 text-center text-[13px] text-text-muted border-t border-border-light bg-surface">
       &copy; 2026 Agentiko. כל הזכויות שמורות.
     </footer>
   )
 }
 
-/* ── Shared Section ────────────────────────── */
+/* ── Shared Section ───────────────────────── */
 
 function Section({ title, subtitle, children, bg }: {
   title: string
   subtitle: string
   children: React.ReactNode
-  bg?: 'soft' | 'warm'
+  bg?: 'gradient' | 'gradient-alt'
 }) {
+  const bgClass = bg === 'gradient' ? 'section-gradient' : bg === 'gradient-alt' ? 'section-gradient-alt' : 'bg-surface'
   return (
-    <section className={`py-20 px-8 ${bg === 'soft' ? 'bg-surface-soft' : bg === 'warm' ? 'bg-surface-warm' : ''}`}>
+    <section className={`py-20 px-8 ${bgClass}`}>
       <div className="max-w-[1080px] mx-auto">
         <h2 className="text-[clamp(28px,4.5vw,38px)] font-bold text-center tracking-[-0.6px] mb-3">{title}</h2>
         {subtitle && <p className="text-center text-[17px] text-text-secondary mb-12 max-w-[520px] mx-auto">{subtitle}</p>}

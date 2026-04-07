@@ -124,6 +124,10 @@ body {
 }
 .btn-brand:active { transform: translateY(-1px); }
 
+/* Size variants */
+.btn-sm { padding: 8px 20px; font-size: 13px; }
+.btn-md { padding: 12px 28px; font-size: 15px; }
+
 /* ── WhatsApp phone ───────────────────────── */
 
 .phone-glass {

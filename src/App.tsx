@@ -28,7 +28,7 @@ function Nav() {
           <span className="w-2 h-2 rounded-full bg-brand animate-pulse" />
           Agentiko
         </a>
-        <a href={APP_URL} className="btn-brand !px-5 !py-2 !text-[13px] !shadow-[0_2px_8px_rgba(212,98,43,0.2)]">
+        <a href={APP_URL} className="btn-brand btn-sm">
           התחל עכשיו
         </a>
       </div>

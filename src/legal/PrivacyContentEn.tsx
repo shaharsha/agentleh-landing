@@ -12,8 +12,8 @@ export function PrivacyContentEn() {
       <LegalSection id="data-collected" title="2. Information We Collect">
         <h3>Identification Data</h3>
         <ul>
-          <li>Your WhatsApp phone number</li>
-          <li>Your WhatsApp profile name</li>
+          <li>Your phone number or messaging platform user ID</li>
+          <li>Your messaging platform profile name</li>
           <li>Email address (during registration)</li>
         </ul>
 
@@ -61,7 +61,7 @@ export function PrivacyContentEn() {
 
       <LegalSection id="how-collected" title="3. How We Collect Information">
         <ul>
-          <li><strong>Directly from you:</strong> Through WhatsApp messages you send to the Agent and registration details you provide.</li>
+          <li><strong>Directly from you:</strong> Through messages you send to the Agent and registration details you provide.</li>
           <li><strong>From integrations:</strong> Information from Gmail, Calendar, and other services — only after your explicit authorization via OAuth.</li>
           <li><strong>Automatically:</strong> Technical metadata, server logs, and usage data collected during Service operation.</li>
           <li><strong>From the payment processor:</strong> Transaction confirmations from Grow by Greeninvoice.</li>
@@ -88,7 +88,7 @@ export function PrivacyContentEn() {
 
         <h3>Message Processing Flow</h3>
         <ul>
-          <li>WhatsApp messages arrive at our bridge server encrypted in transit (TLS).</li>
+          <li>Messages from the messaging platform arrive at our bridge server encrypted in transit (TLS).</li>
           <li>At the bridge server, messages are <strong>decrypted</strong> and forwarded in plaintext to language model (LLM) providers for response generation.</li>
           <li>Transmission to AI providers occurs over encrypted connections (HTTPS/TLS), but the content itself is processed as plaintext on the provider's side.</li>
         </ul>
@@ -254,7 +254,7 @@ export function PrivacyContentEn() {
       <LegalSection id="policy-changes" title="13. Changes to This Policy">
         <ul>
           <li>We may update this policy from time to time.</li>
-          <li>Material changes: At least 30 days' advance notice via WhatsApp and/or email.</li>
+          <li>Material changes: At least 30 days' advance notice via the Agent and/or email.</li>
           <li>The last updated date will appear at the top of the policy.</li>
           <li>Continued use after the notice period constitutes acceptance of the updated policy.</li>
           <li>Previous versions are available upon request.</li>

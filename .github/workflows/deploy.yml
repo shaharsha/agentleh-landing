@@ -1,0 +1,36 @@
+name: Deploy
+
+on:
+  push:
+    branches: [main, develop]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm install
+      - run: npm run lint
+      - run: npm run build
+
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to Render
+        run: |
+          if [ "${{ github.ref }}" = "refs/heads/main" ]; then
+            SERVICE_ID="srv-d7ag0tggjchc73foqoj0"
+            echo "Deploying to production (agentiko.io)"
+          else
+            SERVICE_ID="srv-d7agpqtm5p6s73f0pk8g"
+            echo "Deploying to dev (dev.agentiko.io)"
+          fi
+          curl -sf -X POST "https://api.render.com/v1/services/$SERVICE_ID/deploys" \
+            -H "Authorization: Bearer ${{ secrets.RENDER_API_KEY }}" \
+            -H "Content-Type: application/json" -d '{}'
+          echo "Deploy triggered successfully"

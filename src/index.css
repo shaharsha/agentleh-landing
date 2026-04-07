@@ -162,3 +162,97 @@ body {
     0 4px 12px rgba(212,98,43,0.25),
     0 8px 24px rgba(212,98,43,0.15);
 }
+
+/* ── Elevated Glass Card ─────────────────── */
+
+.glass-card-elevated {
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(24px) saturate(200%);
+  -webkit-backdrop-filter: blur(24px) saturate(200%);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow:
+    0 0 0 1px rgba(0,0,0,0.03),
+    0 4px 16px rgba(0,0,0,0.06),
+    0 16px 48px rgba(0,0,0,0.08);
+}
+
+/* ── Legal Content Typography ────────────── */
+
+.legal-content h2 {
+  font-size: 18px;
+  font-weight: 700;
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--color-border-light);
+  color: var(--color-text-primary);
+}
+
+.legal-content h2:first-child {
+  margin-top: 0;
+}
+
+.legal-content h3 {
+  font-size: 15px;
+  font-weight: 600;
+  margin-top: 1.25rem;
+  margin-bottom: 0.5rem;
+  color: var(--color-text-primary);
+}
+
+.legal-content p {
+  font-size: 14.5px;
+  line-height: 1.85;
+  color: var(--color-text-secondary);
+  margin-bottom: 0.75rem;
+}
+
+.legal-content ul,
+.legal-content ol {
+  padding-inline-start: 1.25rem;
+  margin-bottom: 0.75rem;
+  color: var(--color-text-secondary);
+}
+
+.legal-content li {
+  font-size: 14.5px;
+  line-height: 1.85;
+  margin-bottom: 0.35rem;
+}
+
+.legal-content strong {
+  color: var(--color-text-primary);
+  font-weight: 600;
+}
+
+.legal-content a {
+  color: var(--color-brand);
+  text-decoration: none;
+}
+.legal-content a:hover {
+  text-decoration: underline;
+}
+
+.legal-content table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13.5px;
+  line-height: 1.6;
+}
+
+.legal-content th,
+.legal-content td {
+  border: 1px solid var(--color-border);
+  padding: 8px 12px;
+  text-align: start;
+}
+
+.legal-content th {
+  background: var(--color-surface-soft);
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.legal-content td {
+  color: var(--color-text-secondary);
+}

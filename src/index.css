@@ -1,0 +1,88 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand: #D4622B;
+  --color-brand-light: #E8854F;
+  --color-brand-dark: #B84E1D;
+  --color-brand-50: #FFF5F0;
+  --color-brand-100: #FCE0CC;
+  --color-brand-glow: rgba(212, 98, 43, 0.06);
+
+  --color-surface: #FFFFFF;
+  --color-surface-soft: #F8F8F7;
+  --color-surface-warm: #FBF9F7;
+
+  --color-text-primary: #1A1A1A;
+  --color-text-secondary: #4A4A4A;
+  --color-text-muted: #9A9A9A;
+
+  --color-border: #E8E8E6;
+  --color-border-light: #F0F0F0;
+
+  --font-family-sans: "Rubik", sans-serif;
+}
+
+body {
+  font-family: var(--font-family-sans);
+  margin: 0;
+  color: var(--color-text-primary);
+  line-height: 1.75;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Liquid Glass ─────────────────────────── */
+
+.glass {
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.03), 0 4px 16px rgba(0,0,0,0.04);
+}
+
+.glass-elevated {
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(24px) saturate(200%);
+  -webkit-backdrop-filter: blur(24px) saturate(200%);
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.04), 0 16px 48px rgba(0,0,0,0.06);
+}
+
+.mesh-bg {
+  background:
+    radial-gradient(ellipse at 20% 50%, rgba(212,98,43,0.06) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 20%, rgba(232,133,79,0.04) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 80%, rgba(184,78,29,0.03) 0%, transparent 50%),
+    linear-gradient(180deg, #FDF8F4 0%, #F8F8F7 100%);
+}
+
+/* ── Buttons ──────────────────────────────── */
+
+.btn-brand {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  background: var(--color-brand); color: white; border: none;
+  padding: 16px 40px; border-radius: 100px;
+  font-size: 17px; font-weight: 600; font-family: inherit;
+  cursor: pointer; text-decoration: none; letter-spacing: -0.2px;
+  box-shadow: 0 2px 8px rgba(212,98,43,0.2), inset 0 1px 0 rgba(255,255,255,0.15);
+  transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  position: relative; overflow: hidden;
+}
+.btn-brand::after {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent);
+  transform: translateX(-100%); transition: transform 0.7s cubic-bezier(0.22,1,0.36,1);
+}
+.btn-brand:hover::after { transform: translateX(100%); }
+.btn-brand:hover {
+  background: var(--color-brand-dark); transform: translateY(-3px);
+  box-shadow: 0 12px 32px rgba(212,98,43,0.15), 0 4px 12px rgba(212,98,43,0.12);
+}
+.btn-brand:active { transform: translateY(-1px); }
+
+/* ── Reveal animation ─────────────────────── */
+.reveal {
+  opacity: 0; transform: translateY(20px);
+  transition: opacity 0.6s cubic-bezier(0.22,1,0.36,1), transform 0.6s cubic-bezier(0.22,1,0.36,1);
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }

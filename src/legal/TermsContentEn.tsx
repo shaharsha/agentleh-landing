@@ -192,7 +192,7 @@ export function TermsContentEn() {
         <p>For any questions, requests, or inquiries regarding these Terms of Service:</p>
         <ul>
           <li><strong>Name:</strong> Shahar Shavit — Software Development</li>
-          <li><strong>Email:</strong> support@agentiko.co.il</li>
+          <li><strong>Email:</strong> me@shahar.sh</li>
           <li><strong>WhatsApp:</strong> Contact your Agent directly</li>
         </ul>
       </LegalSection>

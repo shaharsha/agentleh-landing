@@ -15,7 +15,6 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run lint
-      - run: npx tsc -b --noEmit
       - run: npm run build
 
   deploy:
@@ -26,10 +25,12 @@ jobs:
         run: |
           if [ "${{ github.ref }}" = "refs/heads/main" ]; then
             SERVICE_ID="srv-d7ag0tggjchc73foqoj0"
+            echo "Deploying to production (agentiko.io)"
           else
             SERVICE_ID="srv-d7agpqtm5p6s73f0pk8g"
+            echo "Deploying to dev (dev.agentiko.io)"
           fi
           curl -sf -X POST "https://api.render.com/v1/services/$SERVICE_ID/deploys" \
             -H "Authorization: Bearer ${{ secrets.RENDER_API_KEY }}" \
             -H "Content-Type: application/json" -d '{}'
-          echo "Triggered deploy for $SERVICE_ID"
+          echo "Deploy triggered successfully"

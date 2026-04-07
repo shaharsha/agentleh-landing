@@ -243,7 +243,7 @@ export function PrivacyContentEn() {
           <li><strong>Objection:</strong> Object to specific processing activities.</li>
           <li><strong>Withdraw consent:</strong> Withdraw consent for integrations or marketing communications at any time.</li>
         </ul>
-        <p><strong>How to exercise your rights:</strong> Email me@shahar.sh or send a message to your Agent via WhatsApp. We may verify your identity before processing your request. No fee is charged for reasonable requests.</p>
+        <p><strong>How to exercise your rights:</strong> Email me@shahar.sh. We may verify your identity before processing your request. No fee is charged for reasonable requests.</p>
       </LegalSection>
 
       <LegalSection id="minors" title="12. Children's Privacy">
@@ -275,7 +275,6 @@ export function PrivacyContentEn() {
         <ul>
           <li><strong>Name:</strong> Shahar Shavit — Software Development</li>
           <li><strong>Email:</strong> me@shahar.sh</li>
-          <li><strong>WhatsApp:</strong> Contact your Agent directly</li>
         </ul>
         <p>We commit to responding to privacy inquiries within 30 days.</p>
       </LegalSection>

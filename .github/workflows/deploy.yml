@@ -51,6 +51,7 @@ jobs:
           gcloud builds submit \
             --tag=europe-west3-docker.pkg.dev/agentleh/images/${{ steps.env.outputs.service }}:${{ github.sha }} \
             --region=europe-west3 \
+            --suppress-logs \
             .
 
       - name: Deploy to Cloud Run

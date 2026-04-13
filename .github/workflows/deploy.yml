@@ -32,9 +32,11 @@ jobs:
           if [ "${{ github.ref }}" = "refs/heads/main" ]; then
             echo "service=agentleh-landing" >> "$GITHUB_OUTPUT"
             echo "health_url=https://agentiko.io/" >> "$GITHUB_OUTPUT"
+            echo "app_url=https://app.agentiko.io" >> "$GITHUB_OUTPUT"
           else
             echo "service=agentleh-landing-dev" >> "$GITHUB_OUTPUT"
             echo "health_url=https://dev.agentiko.io/" >> "$GITHUB_OUTPUT"
+            echo "app_url=https://app-dev.agentiko.io" >> "$GITHUB_OUTPUT"
           fi
 
       - name: Auth to GCP (Workload Identity Federation)
@@ -49,8 +51,9 @@ jobs:
       - name: Build image via Cloud Build
         run: |
           gcloud builds submit \
-            --tag=europe-west3-docker.pkg.dev/agentleh/images/${{ steps.env.outputs.service }}:${{ github.sha }} \
+            --config=cloudbuild.yaml \
             --region=europe-west3 \
+            --substitutions=_SERVICE=${{ steps.env.outputs.service }},_TAG=${{ github.sha }},_VITE_APP_URL=${{ steps.env.outputs.app_url }} \
             --suppress-logs \
             .
 

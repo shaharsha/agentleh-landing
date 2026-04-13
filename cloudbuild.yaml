@@ -1,0 +1,26 @@
+# Cloud Build config for the landing page.
+# The GitHub Actions workflow passes --substitutions per branch so prod
+# bakes in VITE_APP_URL=https://app.agentiko.io and dev bakes in the
+# app-dev URL. This is the ONLY place Vite env vars are injected —
+# there is no committed .env file.
+
+substitutions:
+  _SERVICE: agentleh-landing
+  _TAG: latest
+  _VITE_APP_URL: https://app.agentiko.io
+
+steps:
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - build
+      - --build-arg
+      - VITE_APP_URL=${_VITE_APP_URL}
+      - -t
+      - europe-west3-docker.pkg.dev/agentleh/images/${_SERVICE}:${_TAG}
+      - .
+
+images:
+  - europe-west3-docker.pkg.dev/agentleh/images/${_SERVICE}:${_TAG}
+
+options:
+  logging: CLOUD_LOGGING_ONLY

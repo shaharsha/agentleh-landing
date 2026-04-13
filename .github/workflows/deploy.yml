@@ -20,17 +20,54 @@ jobs:
   deploy:
     needs: test
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
     steps:
-      - name: Deploy to Render
+      - uses: actions/checkout@v4
+
+      - name: Set environment
+        id: env
         run: |
           if [ "${{ github.ref }}" = "refs/heads/main" ]; then
-            SERVICE_ID="srv-d7ag0tggjchc73foqoj0"
-            echo "Deploying to production (agentiko.io)"
+            echo "service=agentleh-landing" >> "$GITHUB_OUTPUT"
+            echo "health_url=https://agentiko.io/" >> "$GITHUB_OUTPUT"
           else
-            SERVICE_ID="srv-d7agpqtm5p6s73f0pk8g"
-            echo "Deploying to dev (dev.agentiko.io)"
+            echo "service=agentleh-landing-dev" >> "$GITHUB_OUTPUT"
+            echo "health_url=https://dev.agentiko.io/" >> "$GITHUB_OUTPUT"
           fi
-          curl -sf -X POST "https://api.render.com/v1/services/$SERVICE_ID/deploys" \
-            -H "Authorization: Bearer ${{ secrets.RENDER_API_KEY }}" \
-            -H "Content-Type: application/json" -d '{}'
-          echo "Deploy triggered successfully"
+
+      - name: Auth to GCP (Workload Identity Federation)
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ secrets.GCP_WIF_PROVIDER }}
+          service_account: ${{ secrets.GCP_DEPLOY_SA }}
+
+      - name: Set up gcloud
+        uses: google-github-actions/setup-gcloud@v2
+
+      - name: Build image via Cloud Build
+        run: |
+          gcloud builds submit \
+            --tag=europe-west3-docker.pkg.dev/agentleh/images/${{ steps.env.outputs.service }}:${{ github.sha }} \
+            --region=europe-west3 \
+            .
+
+      - name: Deploy to Cloud Run
+        run: |
+          gcloud run deploy ${{ steps.env.outputs.service }} \
+            --image=europe-west3-docker.pkg.dev/agentleh/images/${{ steps.env.outputs.service }}:${{ github.sha }} \
+            --region=europe-west3 \
+            --quiet
+
+      - name: Verify
+        run: |
+          for i in $(seq 1 10); do
+            CODE=$(curl -sS -o /dev/null -w "%{http_code}" "${{ steps.env.outputs.health_url }}" || echo 000)
+            if [ "$CODE" = "200" ]; then
+              echo "Landing healthy"
+              exit 0
+            fi
+            sleep 5
+          done
+          echo "Health check failed"; exit 1

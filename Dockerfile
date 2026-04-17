@@ -6,7 +6,7 @@ WORKDIR /app
 ARG VITE_APP_URL=https://app.agentiko.io
 ENV VITE_APP_URL=$VITE_APP_URL
 
-COPY package*.json ./
+COPY package*.json .npmrc ./
 RUN npm install --no-audit --no-fund
 COPY . .
 RUN npm run build

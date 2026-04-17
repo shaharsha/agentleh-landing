@@ -2,12 +2,14 @@
   "$schema": "https://inlang.com/schema/inlang-message-format",
 
   "nav_cta": "Get Started",
+  "nav_cta_login": "Log in",
 
   "hero_badge": "First 100 seats only",
   "hero_headline_line1": "Your personal assistant",
   "hero_headline_line2": "on WhatsApp",
   "hero_description": "Summarizes emails, schedules meetings, writes content, analyzes data, catches failures and brings order to the chaos. Connected to all your tools. Up in 3 minutes.",
   "hero_cta": "Give me an agent that works for me",
+  "hero_cta_login": "Log in to my account",
   "hero_price_note": "₪249/month. Cancel anytime.",
   "hero_img_alt": "Agentiko",
 
@@ -87,10 +89,12 @@
   "pricing_feature_5": "Failure detection & alerts",
   "pricing_feature_6": "Native Hebrew & English support",
   "pricing_cta": "Give me a personal agent",
+  "pricing_cta_login": "Log in to my account",
 
   "final_cta_title": "Tomorrow morning you have a new employee",
   "final_cta_desc": "It doesn't sleep, doesn't forget, doesn't miss. Connected to every tool you use.",
   "final_cta_btn": "I want to be one of the first 100",
+  "final_cta_btn_login": "Log in to my account",
 
   "footer_terms": "Terms of Service",
   "footer_privacy": "Privacy Policy",

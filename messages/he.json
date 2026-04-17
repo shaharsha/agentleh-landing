@@ -2,12 +2,14 @@
   "$schema": "https://inlang.com/schema/inlang-message-format",
 
   "nav_cta": "התחל עכשיו",
+  "nav_cta_login": "התחברות",
 
   "hero_badge": "100 מקומות ראשונים בלבד",
   "hero_headline_line1": "העוזר האישי שלך",
   "hero_headline_line2": "בוואטסאפ",
   "hero_description": "מסכם מיילים, קובע פגישות, כותב תכנים, מנתח מידע, מזהה כשלים ועושה סדר בכל הבלאגן. מחובר לכל הכלים שלך. מותקן ב3 דקות.",
   "hero_cta": "אני רוצה סוכן שעובד בשבילי",
+  "hero_cta_login": "התחברות לחשבון שלי",
   "hero_price_note": "₪249/חודש. ביטול בכל רגע.",
   "hero_img_alt": "Agentiko",
 
@@ -87,10 +89,12 @@
   "pricing_feature_5": "זיהוי כשלים והתראות",
   "pricing_feature_6": "תמיכה בעברית טבעית",
   "pricing_cta": "אני רוצה סוכן אישי",
+  "pricing_cta_login": "התחברות לחשבון",
 
   "final_cta_title": "מחר בבוקר יש לך עובד חדש",
   "final_cta_desc": "הוא לא ישן, לא שוכח, לא מפספס. מחובר לכל הכלים שלך ומדבר עברית מושלמת.",
   "final_cta_btn": "אני רוצה להיות מה100 הראשונים",
+  "final_cta_btn_login": "התחברות לחשבון",
 
   "footer_terms": "תנאי שימוש",
   "footer_privacy": "מדיניות פרטיות",

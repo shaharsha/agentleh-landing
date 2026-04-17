@@ -4,7 +4,7 @@ import { m } from '../paraglide/messages'
 import { localizeHref } from '../paraglide/runtime'
 import { LanguageSwitcher } from '../i18n/LanguageSwitcher'
 import { SeoHead } from '../i18n/SeoHead'
-import { appUrlWithLang } from '../i18n/appUrl'
+import { ctaHref, hasAccount } from '../i18n/appUrl'
 
 export function Home() {
   return (
@@ -35,8 +35,8 @@ function Nav() {
         </a>
         <div className="flex items-center gap-3">
           <LanguageSwitcher />
-          <a href={appUrlWithLang()} className="btn-brand btn-sm">
-            {m.nav_cta()}
+          <a href={ctaHref()} className="btn-brand btn-sm">
+            {hasAccount() ? m.nav_cta_login() : m.nav_cta()}
           </a>
         </div>
       </div>
@@ -67,7 +67,7 @@ function Hero() {
               {m.hero_description()}
             </p>
             <div className="flex flex-col items-center md:items-start gap-2.5">
-              <a href={appUrlWithLang()} className="btn-brand">{m.hero_cta()}</a>
+              <a href={ctaHref()} className="btn-brand">{hasAccount() ? m.hero_cta_login() : m.hero_cta()}</a>
               <span className="text-[13px] text-text-muted">{m.hero_price_note()}</span>
             </div>
           </div>
@@ -252,7 +252,7 @@ function Pricing() {
             </li>
           ))}
         </ul>
-        <a href={appUrlWithLang()} className="btn-brand w-full">{m.pricing_cta()}</a>
+        <a href={ctaHref()} className="btn-brand w-full">{hasAccount() ? m.pricing_cta_login() : m.pricing_cta()}</a>
       </div>
     </Section>
   )
@@ -270,7 +270,7 @@ function FinalCTA() {
         <p className="text-[17px] text-text-secondary mb-8 leading-relaxed">
           {m.final_cta_desc()}
         </p>
-        <a href={appUrlWithLang()} className="btn-brand">{m.final_cta_btn()}</a>
+        <a href={ctaHref()} className="btn-brand">{hasAccount() ? m.final_cta_btn_login() : m.final_cta_btn()}</a>
       </div>
     </section>
   )

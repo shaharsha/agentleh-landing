@@ -11,6 +11,30 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
     <script>
+      // Resolve the active theme BEFORE React hydrates. Prevents a flash
+      // of light content for dark-pinned visitors (and vice-versa) on
+      // the SSG-rendered HTML. Must match the resolution order in
+      // src/theme/useTheme.tsx:
+      //   1. localStorage['agentleh.theme'] if 'light' or 'dark'
+      //   2. prefers-color-scheme media query (the 'auto' path)
+      (function () {
+        try {
+          var saved = localStorage.getItem('agentleh.theme');
+          var mode;
+          if (saved === 'light' || saved === 'dark') {
+            mode = saved;
+          } else {
+            mode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light';
+          }
+          document.documentElement.setAttribute('data-theme', mode);
+        } catch (e) {
+          document.documentElement.setAttribute('data-theme', 'light');
+        }
+      })();
+    </script>
+    <script>
       // On first visit, if the visitor's browser prefers English, hand
       // them off to /en so they see the right language immediately.
       // Runs only at the exact root (/) and only once per visit: we set a

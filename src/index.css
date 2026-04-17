@@ -63,8 +63,11 @@
   --section-hero-3: #F8F3ED;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
+/* Dark-mode tokens. Activated by `html[data-theme="dark"]` — set by the
+ * pre-React script in index.html synchronously before first paint, and
+ * maintained by the theme provider while the user is on 'auto'. Single
+ * source of truth avoids duplicating the block for the @media fallback. */
+html[data-theme="dark"] {
     color-scheme: dark;
 
     /* Override @theme tokens for dark mode */
@@ -102,7 +105,6 @@
     --section-hero-1: #14100C;
     --section-hero-2: #100C09;
     --section-hero-3: #0C0907;
-  }
 }
 
 body {

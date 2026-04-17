@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { m } from '../paraglide/messages'
 import { localizeHref } from '../paraglide/runtime'
 import { LanguageSwitcher } from '../i18n/LanguageSwitcher'
+import { ThemeSwitcher } from '../theme/ThemeSwitcher'
 import { SeoHead } from '../i18n/SeoHead'
 import { ctaHref, hasAccount } from '../i18n/appUrl'
 
@@ -34,6 +35,7 @@ function Nav() {
           Agentiko
         </a>
         <div className="flex items-center gap-2 sm:gap-3">
+          <ThemeSwitcher />
           <LanguageSwitcher />
           <a href={ctaHref()} className="btn-brand btn-sm">
             {hasAccount() ? m.nav_cta_login() : m.nav_cta()}

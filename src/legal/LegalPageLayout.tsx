@@ -1,6 +1,7 @@
 import { m } from '../paraglide/messages'
 import { getLocale } from '../paraglide/runtime'
 import { LanguageSwitcher } from '../i18n/LanguageSwitcher'
+import { ThemeSwitcher } from '../theme/ThemeSwitcher'
 
 /**
  * Shared layout for the legal pages (terms + privacy). Direction and
@@ -34,7 +35,10 @@ export function LegalPageLayout({
             </svg>
             {m.legal_back()}
           </button>
-          <LanguageSwitcher />
+          <div className="flex items-center gap-2">
+            <ThemeSwitcher />
+            <LanguageSwitcher />
+          </div>
         </div>
 
         {/* Content card */}

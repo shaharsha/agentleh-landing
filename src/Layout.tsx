@@ -6,6 +6,7 @@ import {
   baseLocale,
   type Locale,
 } from './paraglide/runtime'
+import { ThemeProvider } from './theme/useTheme'
 
 const SITE_ORIGIN = 'https://agentiko.io'
 
@@ -34,7 +35,9 @@ export function Layout() {
       <Head>
         <html lang={lang} dir={dir} />
       </Head>
-      <Outlet />
+      <ThemeProvider>
+        <Outlet />
+      </ThemeProvider>
     </>
   )
 }

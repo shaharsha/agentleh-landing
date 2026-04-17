@@ -5,11 +5,50 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#D4622B" />
-    <meta name="description" content="Agentiko - העוזר החכם שלך בוואטסאפ. סוכן AI אישי שמנהל מיילים, יומן, משימות ועוד." />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
-    <title>Agentiko | העוזר החכם שלך בוואטסאפ</title>
+    <script>
+      // On first visit, if the visitor's browser prefers English, hand
+      // them off to /en so they see the right language immediately.
+      // Runs only at the exact root (/) and only once per visit: we set a
+      // session marker so clicking "עב" in the switcher doesn't bounce
+      // back to /en. The marker lives in sessionStorage so a brand-new
+      // tab tomorrow re-detects.
+      //
+      // Resolution rules (must match the app's pickInitialLang):
+      //   1. If PARAGLIDE_LOCALE is in localStorage → honor it
+      //   2. Walk navigator.languages, first supported primary tag wins
+      //   3. Default: Hebrew (no redirect)
+      (function () {
+        try {
+          if (sessionStorage.getItem('agentleh.landing.detected')) return;
+          if (location.pathname !== '/') return;
+          var saved = localStorage.getItem('PARAGLIDE_LOCALE');
+          if (saved === 'en') {
+            sessionStorage.setItem('agentleh.landing.detected', '1');
+            location.replace('/en' + location.search + location.hash);
+            return;
+          }
+          if (saved === 'he') return;
+          var langs = navigator.languages && navigator.languages.length
+            ? navigator.languages
+            : [navigator.language || 'he'];
+          for (var i = 0; i < langs.length; i++) {
+            var primary = String(langs[i]).toLowerCase().split('-')[0];
+            if (primary === 'he' || primary === 'iw') return;
+            if (primary === 'en') {
+              sessionStorage.setItem('agentleh.landing.detected', '1');
+              location.replace('/en' + location.search + location.hash);
+              return;
+            }
+          }
+        } catch (e) {
+          // localStorage/sessionStorage/navigator disabled — keep defaults
+        }
+      })();
+    </script>
+    <title>Agentiko</title>
   </head>
   <body>
     <div id="root"></div>

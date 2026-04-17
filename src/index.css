@@ -1,5 +1,13 @@
 @import "tailwindcss";
 
+/* Tailwind v4: re-point the built-in `dark:` variant at our
+ * attribute-driven theme system. Default is `@media (prefers-color-
+ * scheme: dark)`, which diverges from our data-theme attribute the
+ * moment a user picks Light/Dark against their OS preference — the
+ * pre-React script sets data-theme to the resolved mode, so this is the
+ * single source of truth every style rule needs to key off. */
+@custom-variant dark ([data-theme="dark"] &);
+
 @theme {
   /* Breakpoints — xs for iPhone-SE-class phones (≤360 px) */
   --breakpoint-xs: 360px;
@@ -166,6 +174,26 @@ body {
     min-height: 44px;
   }
 }
+
+/* Dropdown entrance — slight fade + upward settle. Kept brief (120 ms)
+ * so quick re-opens feel responsive. Origin is direction-aware: the
+ * dropdown is anchored to the trailing edge of the trigger, so the
+ * scale pivot should be on that same side to read naturally. */
+@keyframes dropdown-in {
+  from { opacity: 0; transform: translateY(-4px) scale(0.98); }
+  to   { opacity: 1; transform: translateY(0)    scale(1);    }
+}
+.animate-in-dropdown {
+  animation: dropdown-in 120ms cubic-bezier(0.22, 1, 0.36, 1);
+  transform-origin: top right;
+}
+[dir="rtl"] .animate-in-dropdown {
+  transform-origin: top left;
+}
+
+/* Scrollbar hide utility — used on scroll-snap tab bars + dropdowns. */
+.scrollbar-hide::-webkit-scrollbar { display: none; }
+.scrollbar-hide { scrollbar-width: none; -ms-overflow-style: none; }
 
 /* Safe-area-aware horizontal padding utility. Use on .glass-nav + main
  * containers + modal sheets so iPhone notch / Android punch-hole never

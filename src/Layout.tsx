@@ -6,6 +6,9 @@ import {
   baseLocale,
   type Locale,
 } from './paraglide/runtime'
+// Importing this file is enough to initialize the theme store at module
+// scope — no provider component needed.
+import './theme/store'
 
 const SITE_ORIGIN = 'https://agentiko.io'
 

@@ -1,12 +1,28 @@
 @import "tailwindcss";
 
+/* Tailwind v4: re-point the built-in `dark:` variant at our
+ * attribute-driven theme system. Default is `@media (prefers-color-
+ * scheme: dark)`, which diverges from our data-theme attribute the
+ * moment a user picks Light/Dark against their OS preference — the
+ * pre-React script sets data-theme to the resolved mode, so this is the
+ * single source of truth every style rule needs to key off. */
+@custom-variant dark ([data-theme="dark"] &);
+
 @theme {
+  /* Breakpoints — xs for iPhone-SE-class phones (≤360 px) */
+  --breakpoint-xs: 360px;
+
+  /* Brand (invariant across light/dark) */
   --color-brand: #D4622B;
   --color-brand-light: #E8854F;
   --color-brand-dark: #B84E1D;
   --color-brand-50: #FFF5F0;
   --color-brand-100: #FCE0CC;
 
+  /* Surface + text + border tokens. Defined here so Tailwind utility
+   * classes (`bg-surface`, `text-text-primary`, `border-border`) compile
+   * against them. Runtime dark-mode swap happens in the :root block
+   * below — same variable names, later-wins cascade. */
   --color-surface: #FFFFFF;
   --color-surface-soft: #F8F8F7;
 
@@ -20,141 +36,340 @@
   --font-family-sans: "Rubik", sans-serif;
 }
 
+/* ═══════════════════════════════════════════
+   SEMANTIC TOKENS — glass, sections, shadows
+   Swapped per color-scheme at runtime.
+   ═══════════════════════════════════════════ */
+:root {
+  color-scheme: light;
+
+  /* Glass surfaces (rgba so backdrop-filter still shines through) */
+  --glass-nav-bg: rgba(255, 255, 255, 0.65);
+  --glass-nav-border: rgba(255, 255, 255, 0.3);
+  --glass-card-bg: rgba(255, 255, 255, 0.55);
+  --glass-card-bg-hover: rgba(255, 255, 255, 0.75);
+  --glass-card-border: rgba(255, 255, 255, 0.6);
+  --glass-elevated-bg: rgba(255, 255, 255, 0.72);
+  --glass-elevated-border: rgba(255, 255, 255, 0.5);
+  --glass-pill-bg: rgba(255, 255, 255, 0.5);
+  --glass-pill-border: rgba(255, 255, 255, 0.4);
+  --glass-phone-bg: rgba(255, 255, 255, 0.6);
+  --glass-phone-border: rgba(255, 255, 255, 0.5);
+
+  /* Shadow tints (black-on-light / black-on-dark feel) */
+  --shadow-rgb: 0, 0, 0;
+
+  /* Section gradient stops */
+  --section-stop-1: #FDF8F4;
+  --section-stop-2: #FAF5F1;
+  --section-stop-3: #F5F0EC;
+  --section-alt-1: #F5F0EC;
+  --section-alt-2: #FBF7F4;
+  --section-alt-3: #FDF8F4;
+  --section-hero-1: #FEF6F0;
+  --section-hero-2: #FBF5EF;
+  --section-hero-3: #F8F3ED;
+}
+
+/* Dark-mode tokens. Activated by `html[data-theme="dark"]` — set by the
+ * pre-React script in index.html synchronously before first paint, and
+ * maintained by the theme provider while the user is on 'auto'. Single
+ * source of truth avoids duplicating the block for the @media fallback. */
+html[data-theme="dark"] {
+    color-scheme: dark;
+
+    /* Override @theme tokens for dark mode */
+    --color-surface: #16120E;
+    --color-surface-soft: #1E1814;
+    --color-text-primary: #F5EFE8;
+    --color-text-secondary: #B8A595;
+    --color-text-muted: #7A6B5E;
+    --color-border: #2B2319;
+    --color-border-light: #221B13;
+    --color-brand-50: #2A1810;
+    --color-brand-100: #3D2416;
+
+    /* Glass goes dark-tinted; keep backdrop-filter doing the heavy lift */
+    --glass-nav-bg: rgba(22, 18, 14, 0.72);
+    --glass-nav-border: rgba(255, 255, 255, 0.06);
+    --glass-card-bg: rgba(30, 24, 20, 0.55);
+    --glass-card-bg-hover: rgba(38, 30, 24, 0.7);
+    --glass-card-border: rgba(255, 255, 255, 0.08);
+    --glass-elevated-bg: rgba(38, 30, 24, 0.72);
+    --glass-elevated-border: rgba(255, 255, 255, 0.08);
+    --glass-pill-bg: rgba(30, 24, 20, 0.5);
+    --glass-pill-border: rgba(255, 255, 255, 0.06);
+    --glass-phone-bg: rgba(30, 24, 20, 0.6);
+    --glass-phone-border: rgba(255, 255, 255, 0.08);
+
+    --shadow-rgb: 0, 0, 0;
+
+    --section-stop-1: #0F0B08;
+    --section-stop-2: #13100C;
+    --section-stop-3: #16120E;
+    --section-alt-1: #16120E;
+    --section-alt-2: #120E0B;
+    --section-alt-3: #0F0B08;
+    --section-hero-1: #14100C;
+    --section-hero-2: #100C09;
+    --section-hero-3: #0C0907;
+}
+
 body {
   font-family: var(--font-family-sans);
   margin: 0;
   color: var(--color-text-primary);
+  background: var(--color-surface);
   line-height: 1.75;
-  -webkit-font-smoothing: antialiased;
+  /* Hebrew fonts (Rubik) render too thin with `antialiased` on some
+   * low-DPI Android displays — `auto` keeps the OS default which is
+   * closer to what the type designer intended. */
+  -webkit-font-smoothing: auto;
 }
 
-/* ── Liquid Glass ─────────────────────────── */
+/* iOS Safari zooms the viewport whenever a user focuses an input whose
+ * computed font-size is <16 px. Bumping to 16 px on mobile kills that
+ * behavior without affecting desktop density. */
+@media (max-width: 640px) {
+  input, select, textarea {
+    font-size: 16px;
+  }
+}
+
+/* ── Accessibility: reduce motion ─────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ── Theme cross-fade ──────────────────────
+ * When the OS flips prefers-color-scheme, CSS vars repoint instantly
+ * but the resolved property on each element can transition. Keep the
+ * selector list narrow (page surfaces + cards + section backgrounds)
+ * so existing hover animations on buttons/inputs aren't flattened.
+ * The .glass-card-hover rule below declares its own richer transition
+ * that overrides this for hover-capable cards. */
+@media (prefers-reduced-motion: no-preference) {
+  html, body,
+  .glass-nav, .glass-card, .glass-card-elevated, .glass-pill {
+    transition: background-color 250ms ease-out,
+                color 250ms ease-out,
+                border-color 250ms ease-out;
+  }
+  .section-gradient, .section-gradient-alt, .section-gradient-hero {
+    transition: background 350ms ease-out, color 250ms ease-out;
+  }
+}
+
+/* ── Touch-safe interactive floors ────────── */
+/* Coarse pointer = touch device. Guarantee every button/link meets the
+ * 44×44 px iOS HIG minimum so nothing on mobile feels fiddly. */
+@media (pointer: coarse) {
+  button, a.btn-brand, a.btn-secondary, a.btn-sm, a.btn-md,
+  button.btn-sm, button.btn-md {
+    min-height: 44px;
+  }
+}
+
+/* Dropdown entrance — slight fade + upward settle. Kept brief (120 ms)
+ * so quick re-opens feel responsive. Origin is direction-aware: the
+ * dropdown is anchored to the trailing edge of the trigger, so the
+ * scale pivot should be on that same side to read naturally. */
+@keyframes dropdown-in {
+  from { opacity: 0; transform: translateY(-4px) scale(0.98); }
+  to   { opacity: 1; transform: translateY(0)    scale(1);    }
+}
+.animate-in-dropdown {
+  animation: dropdown-in 120ms cubic-bezier(0.22, 1, 0.36, 1);
+  transform-origin: top right;
+}
+[dir="rtl"] .animate-in-dropdown {
+  transform-origin: top left;
+}
+
+/* Scrollbar hide utility — used on scroll-snap tab bars + dropdowns. */
+.scrollbar-hide::-webkit-scrollbar { display: none; }
+.scrollbar-hide { scrollbar-width: none; -ms-overflow-style: none; }
+
+/* Safe-area-aware horizontal padding utility. Use on .glass-nav + main
+ * containers + modal sheets so iPhone notch / Android punch-hole never
+ * clip content. */
+.safe-px {
+  padding-inline-start: max(1rem, env(safe-area-inset-left));
+  padding-inline-end: max(1rem, env(safe-area-inset-right));
+}
+.safe-pt { padding-top: max(0.5rem, env(safe-area-inset-top)); }
+.safe-pb { padding-bottom: max(0.5rem, env(safe-area-inset-bottom)); }
+
+/* ═══════════════════════════════════════════
+   LIQUID GLASS
+   ═══════════════════════════════════════════ */
 
 .glass-nav {
-  background: rgba(255, 255, 255, 0.65);
+  background: var(--glass-nav-bg);
   backdrop-filter: blur(24px) saturate(200%);
   -webkit-backdrop-filter: blur(24px) saturate(200%);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
-  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  border-bottom: 1px solid var(--glass-nav-border);
+  box-shadow: 0 1px 3px rgba(var(--shadow-rgb), 0.04);
 }
 
 .glass-card {
-  background: rgba(255, 255, 255, 0.55);
+  background: var(--glass-card-bg);
   backdrop-filter: blur(20px) saturate(180%);
   -webkit-backdrop-filter: blur(20px) saturate(180%);
-  border: 1px solid rgba(255, 255, 255, 0.6);
+  border: 1px solid var(--glass-card-border);
   box-shadow:
-    0 0 0 1px rgba(0,0,0,0.03),
-    0 2px 8px rgba(0,0,0,0.04),
-    0 8px 32px rgba(0,0,0,0.06);
+    0 0 0 1px rgba(var(--shadow-rgb), 0.03),
+    0 2px 8px rgba(var(--shadow-rgb), 0.04),
+    0 8px 32px rgba(var(--shadow-rgb), 0.06);
 }
 
 .glass-card-hover {
-  transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: background 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+              box-shadow 0.4s cubic-bezier(0.22, 1, 0.36, 1);
 }
-.glass-card-hover:hover {
-  background: rgba(255, 255, 255, 0.75);
-  transform: translateY(-4px);
-  box-shadow:
-    0 0 0 1px rgba(212,98,43,0.08),
-    0 8px 24px rgba(212,98,43,0.08),
-    0 16px 48px rgba(0,0,0,0.08);
+/* Only apply the lift on devices that actually have a hover state —
+ * mobile browsers sticky-fire :hover after tap which made cards jitter. */
+@media (hover: hover) and (pointer: fine) {
+  .glass-card-hover:hover {
+    background: var(--glass-card-bg-hover);
+    transform: translateY(-4px);
+    box-shadow:
+      0 0 0 1px rgba(212,98,43,0.08),
+      0 8px 24px rgba(212,98,43,0.08),
+      0 16px 48px rgba(var(--shadow-rgb), 0.08);
+  }
 }
 
 .glass-pill {
-  background: rgba(255, 255, 255, 0.5);
+  background: var(--glass-pill-bg);
   backdrop-filter: blur(12px) saturate(160%);
   -webkit-backdrop-filter: blur(12px) saturate(160%);
-  border: 1px solid rgba(255, 255, 255, 0.4);
-  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+  border: 1px solid var(--glass-pill-border);
+  box-shadow: 0 1px 4px rgba(var(--shadow-rgb), 0.04);
 }
 
-/* ── Gradient Sections ────────────────────── */
-/* Glass needs contrast behind it — use gradient sections */
+.glass-card-elevated {
+  background: var(--glass-elevated-bg);
+  backdrop-filter: blur(24px) saturate(200%);
+  -webkit-backdrop-filter: blur(24px) saturate(200%);
+  border: 1px solid var(--glass-elevated-border);
+  box-shadow:
+    0 0 0 1px rgba(var(--shadow-rgb), 0.03),
+    0 4px 16px rgba(var(--shadow-rgb), 0.06),
+    0 16px 48px rgba(var(--shadow-rgb), 0.08);
+}
+
+/* ═══════════════════════════════════════════
+   GRADIENT SECTIONS
+   Glass needs contrast behind it.
+   ═══════════════════════════════════════════ */
 
 .section-gradient {
   background:
     radial-gradient(ellipse at 30% 20%, rgba(212,98,43,0.07) 0%, transparent 50%),
     radial-gradient(ellipse at 70% 80%, rgba(232,133,79,0.05) 0%, transparent 50%),
     radial-gradient(ellipse at 50% 50%, rgba(184,78,29,0.03) 0%, transparent 60%),
-    linear-gradient(180deg, #FDF8F4 0%, #FAF5F1 50%, #F5F0EC 100%);
+    linear-gradient(180deg, var(--section-stop-1) 0%, var(--section-stop-2) 50%, var(--section-stop-3) 100%);
 }
 
 .section-gradient-alt {
   background:
     radial-gradient(ellipse at 80% 30%, rgba(212,98,43,0.06) 0%, transparent 50%),
     radial-gradient(ellipse at 20% 70%, rgba(232,133,79,0.04) 0%, transparent 50%),
-    linear-gradient(180deg, #F5F0EC 0%, #FBF7F4 50%, #FDF8F4 100%);
+    linear-gradient(180deg, var(--section-alt-1) 0%, var(--section-alt-2) 50%, var(--section-alt-3) 100%);
 }
 
 .section-gradient-hero {
   background:
     radial-gradient(ellipse 80% 60% at 50% 0%, rgba(212,98,43,0.08) 0%, transparent 60%),
     radial-gradient(ellipse at 20% 60%, rgba(232,133,79,0.05) 0%, transparent 50%),
-    linear-gradient(180deg, #FEF6F0 0%, #FBF5EF 40%, #F8F3ED 100%);
+    linear-gradient(180deg, var(--section-hero-1) 0%, var(--section-hero-2) 40%, var(--section-hero-3) 100%);
 }
 
-/* ── Buttons ──────────────────────────────── */
+/* ═══════════════════════════════════════════
+   BUTTONS
+   ═══════════════════════════════════════════ */
 
 .btn-brand {
   display: inline-flex; align-items: center; justify-content: center; gap: 8px;
   background: var(--color-brand); color: white; border: none;
-  padding: 16px 40px; border-radius: 100px;
+  padding: 14px 36px; border-radius: 100px;
   font-size: 17px; font-weight: 600; font-family: inherit;
   cursor: pointer; text-decoration: none; letter-spacing: -0.2px;
+  min-height: 48px;
   box-shadow:
     0 2px 8px rgba(212,98,43,0.25),
     0 8px 24px rgba(212,98,43,0.15),
     inset 0 1px 0 rgba(255,255,255,0.15);
-  transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: background 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+              box-shadow 0.3s cubic-bezier(0.22, 1, 0.36, 1);
   position: relative; overflow: hidden;
 }
 .btn-brand::after {
   content: ''; position: absolute; inset: 0;
   background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
   transform: translateX(-100%); transition: transform 0.7s cubic-bezier(0.22,1,0.36,1);
+  pointer-events: none;
 }
-.btn-brand:hover::after { transform: translateX(100%); }
-.btn-brand:hover {
-  background: var(--color-brand-dark); transform: translateY(-3px);
-  box-shadow:
-    0 4px 12px rgba(212,98,43,0.3),
-    0 16px 40px rgba(212,98,43,0.2),
-    inset 0 1px 0 rgba(255,255,255,0.15);
+@media (hover: hover) and (pointer: fine) {
+  .btn-brand:hover::after { transform: translateX(100%); }
+  .btn-brand:hover {
+    background: var(--color-brand-dark); transform: translateY(-3px);
+    box-shadow:
+      0 4px 12px rgba(212,98,43,0.3),
+      0 16px 40px rgba(212,98,43,0.2),
+      inset 0 1px 0 rgba(255,255,255,0.15);
+  }
 }
 .btn-brand:active { transform: translateY(-1px); }
 
-/* Size variants */
-.btn-sm { padding: 8px 20px; font-size: 13px; }
-.btn-md { padding: 12px 28px; font-size: 15px; }
-
-/* ── WhatsApp phone ───────────────────────── */
-
-.phone-glass {
-  background: rgba(255, 255, 255, 0.6);
-  backdrop-filter: blur(24px) saturate(200%);
-  -webkit-backdrop-filter: blur(24px) saturate(200%);
-  border: 1px solid rgba(255, 255, 255, 0.5);
-  box-shadow:
-    0 0 0 1px rgba(0,0,0,0.04),
-    0 8px 32px rgba(0,0,0,0.08),
-    0 24px 64px rgba(0,0,0,0.1);
+/* Size variants — enforce the 44-px touch floor on mobile */
+.btn-sm { padding: 10px 20px; font-size: 13px; min-height: 40px; }
+.btn-md { padding: 12px 24px; font-size: 15px; min-height: 44px; }
+@media (pointer: coarse) {
+  .btn-sm { padding: 11px 22px; min-height: 44px; }
 }
 
-/* ── Pricing card ─────────────────────────── */
+/* ═══════════════════════════════════════════
+   WHATSAPP PHONE MOCK
+   ═══════════════════════════════════════════ */
 
-.pricing-glass {
-  background: rgba(255, 255, 255, 0.6);
+.phone-glass {
+  background: var(--glass-phone-bg);
   backdrop-filter: blur(24px) saturate(200%);
   -webkit-backdrop-filter: blur(24px) saturate(200%);
-  border: 1px solid rgba(255, 255, 255, 0.5);
+  border: 1px solid var(--glass-phone-border);
+  box-shadow:
+    0 0 0 1px rgba(var(--shadow-rgb), 0.04),
+    0 8px 32px rgba(var(--shadow-rgb), 0.08),
+    0 24px 64px rgba(var(--shadow-rgb), 0.1);
+}
+
+/* ═══════════════════════════════════════════
+   PRICING CARD
+   ═══════════════════════════════════════════ */
+
+.pricing-glass {
+  background: var(--glass-phone-bg);
+  backdrop-filter: blur(24px) saturate(200%);
+  -webkit-backdrop-filter: blur(24px) saturate(200%);
+  border: 1px solid var(--glass-phone-border);
   box-shadow:
     0 0 0 1px rgba(212,98,43,0.06),
     0 8px 32px rgba(212,98,43,0.06),
-    0 24px 64px rgba(0,0,0,0.08);
+    0 24px 64px rgba(var(--shadow-rgb), 0.08);
 }
 
-/* ── Step number ──────────────────────────── */
+/* ═══════════════════════════════════════════
+   STEP NUMBER BADGE
+   ═══════════════════════════════════════════ */
 
 .step-num {
   background: var(--color-brand);
@@ -163,23 +378,12 @@ body {
     0 8px 24px rgba(212,98,43,0.15);
 }
 
-/* ── Elevated Glass Card ─────────────────── */
-
-.glass-card-elevated {
-  background: rgba(255, 255, 255, 0.72);
-  backdrop-filter: blur(24px) saturate(200%);
-  -webkit-backdrop-filter: blur(24px) saturate(200%);
-  border: 1px solid rgba(255, 255, 255, 0.5);
-  box-shadow:
-    0 0 0 1px rgba(0,0,0,0.03),
-    0 4px 16px rgba(0,0,0,0.06),
-    0 16px 48px rgba(0,0,0,0.08);
-}
-
-/* ── Legal Content Typography ────────────── */
+/* ═══════════════════════════════════════════
+   LEGAL CONTENT
+   ═══════════════════════════════════════════ */
 
 .legal-content h2 {
-  font-size: 18px;
+  font-size: clamp(1rem, 0.94rem + 0.3vw, 1.125rem);
   font-weight: 700;
   margin-top: 2rem;
   margin-bottom: 0.75rem;
@@ -193,7 +397,7 @@ body {
 }
 
 .legal-content h3 {
-  font-size: 15px;
+  font-size: clamp(0.9375rem, 0.9rem + 0.15vw, 1rem);
   font-weight: 600;
   margin-top: 1.25rem;
   margin-bottom: 0.5rem;
@@ -201,7 +405,7 @@ body {
 }
 
 .legal-content p {
-  font-size: 14.5px;
+  font-size: clamp(0.9rem, 0.86rem + 0.2vw, 0.9375rem);
   line-height: 1.85;
   color: var(--color-text-secondary);
   margin-bottom: 0.75rem;
@@ -222,7 +426,7 @@ body {
 }
 
 .legal-content li {
-  font-size: 14.5px;
+  font-size: clamp(0.9rem, 0.86rem + 0.2vw, 0.9375rem);
   line-height: 1.85;
   margin-bottom: 0.35rem;
   display: list-item;
@@ -237,14 +441,33 @@ body {
   color: var(--color-brand);
   text-decoration: none;
 }
-.legal-content a:hover {
-  text-decoration: underline;
+@media (hover: hover) and (pointer: fine) {
+  .legal-content a:hover {
+    text-decoration: underline;
+  }
+}
+
+/* Wrap legal tables so they can scroll horizontally on narrow screens
+ * without blowing out the page layout. The wrapper div uses
+ * .legal-table-wrap which the markdown render emits around <table>. */
+.legal-table-wrap {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin-block: 1rem;
+  /* Fade the trailing edge to hint "scroll me" on mobile */
+  mask-image: linear-gradient(to right, black 85%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, black 85%, transparent 100%);
+}
+[dir="rtl"] .legal-table-wrap {
+  mask-image: linear-gradient(to left, black 85%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to left, black 85%, transparent 100%);
 }
 
 .legal-content table {
   width: 100%;
+  min-width: 480px;
   border-collapse: collapse;
-  font-size: 13.5px;
+  font-size: clamp(0.8125rem, 0.78rem + 0.2vw, 0.9375rem);
   line-height: 1.6;
 }
 

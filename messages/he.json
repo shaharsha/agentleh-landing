@@ -112,5 +112,10 @@
   "legal_last_updated_value": "אפריל 2026",
   "legal_en_disclaimer": "This English version is provided for convenience only. The Hebrew version is the legally binding document. In case of any discrepancy, the Hebrew version shall prevail.",
   "legal_terms_title": "תנאי שימוש",
-  "legal_privacy_title": "מדיניות פרטיות"
+  "legal_privacy_title": "מדיניות פרטיות",
+
+  "theme_aria": "בחירת ערכת נושא",
+  "theme_auto": "אוטומטי",
+  "theme_light": "בהיר",
+  "theme_dark": "כהה"
 }

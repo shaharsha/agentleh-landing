@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { m } from '../paraglide/messages'
 import { localizeHref } from '../paraglide/runtime'
 import { LanguageSwitcher } from '../i18n/LanguageSwitcher'
+import { ThemeSwitcher } from '../theme/ThemeSwitcher'
 import { SeoHead } from '../i18n/SeoHead'
 import { ctaHref, hasAccount } from '../i18n/appUrl'
 
@@ -27,13 +28,14 @@ export function Home() {
 
 function Nav() {
   return (
-    <nav className="glass-nav fixed top-0 left-0 right-0 z-50 px-6 py-2.5">
-      <div className="max-w-[1080px] mx-auto flex items-center justify-between">
-        <a href="#" className="flex items-center gap-2 text-[18px] font-bold tracking-[-0.3px] text-text-primary no-underline">
+    <nav className="glass-nav sticky top-0 z-50 safe-px safe-pt py-2.5">
+      <div className="max-w-[1080px] mx-auto flex items-center justify-between gap-2">
+        <a href="#" className="flex items-center gap-2 text-[17px] sm:text-[18px] font-bold tracking-[-0.3px] text-text-primary no-underline shrink-0">
           <span className="w-2 h-2 rounded-full bg-brand animate-pulse" />
           Agentiko
         </a>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 sm:gap-3">
+          <ThemeSwitcher />
           <LanguageSwitcher />
           <a href={ctaHref()} className="btn-brand btn-sm">
             {hasAccount() ? m.nav_cta_login() : m.nav_cta()}
@@ -48,22 +50,22 @@ function Nav() {
 
 function Hero() {
   return (
-    <section className="pt-[140px] pb-16 section-gradient-hero relative overflow-hidden">
-      <div className="max-w-[1080px] mx-auto px-8 relative">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+    <section className="pt-12 sm:pt-16 md:pt-24 pb-16 section-gradient-hero relative overflow-hidden">
+      <div className="max-w-[1080px] mx-auto px-4 sm:px-6 md:px-8 relative">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-12 items-center">
           <div className="text-center md:text-start">
-            <div className="glass-pill inline-flex items-center gap-1.5 text-brand px-3.5 py-1.5 rounded-full text-[13px] font-semibold mb-6">
+            <div className="glass-pill inline-flex items-center gap-1.5 text-brand px-3.5 py-1.5 rounded-full text-[13px] font-semibold mb-5 sm:mb-6">
               <span className="w-1.5 h-1.5 rounded-full bg-brand animate-pulse" />
               {m.hero_badge()}
             </div>
-            <h1 className="text-[clamp(32px,5.5vw,50px)] font-extrabold leading-[1.12] tracking-[-1px] mb-5">
+            <h1 className="text-[clamp(28px,7.5vw,50px)] font-extrabold leading-[1.12] tracking-[-1px] mb-5 break-words">
               {m.hero_headline_line1()}<br />
               <span className="relative inline-block">
                 {m.hero_headline_line2()}
-                <span className="absolute bottom-1 -right-1 -left-1 h-3.5 bg-gradient-to-l from-brand/20 to-brand/5 rounded -z-10" />
+                <span className="absolute bottom-1 inset-x-[-0.25rem] h-3.5 rounded -z-10 bg-gradient-to-r rtl:bg-gradient-to-l from-brand/20 to-brand/5" />
               </span>
             </h1>
-            <p className="text-[17px] text-text-secondary leading-relaxed mb-7">
+            <p className="text-[clamp(15px,3.6vw,17px)] text-text-secondary leading-relaxed mb-7">
               {m.hero_description()}
             </p>
             <div className="flex flex-col items-center md:items-start gap-2.5">
@@ -71,8 +73,18 @@ function Hero() {
               <span className="text-[13px] text-text-muted">{m.hero_price_note()}</span>
             </div>
           </div>
-          <div>
-            <img src="/hero.jpg" alt={m.hero_img_alt()} className="w-full rounded-[22px] shadow-[0_24px_64px_rgba(0,0,0,0.14),0_8px_24px_rgba(0,0,0,0.06)] hover:scale-[1.02] hover:-translate-y-1 transition-all duration-500" />
+          <div className="mx-auto w-full max-w-[560px]">
+            <div className="relative w-full" style={{ aspectRatio: '16 / 11' }}>
+              <img
+                src="/hero.jpg"
+                alt={m.hero_img_alt()}
+                loading="eager"
+                fetchPriority="high"
+                decoding="async"
+                sizes="(max-width: 768px) 100vw, 540px"
+                className="absolute inset-0 w-full h-full object-cover rounded-[22px] shadow-[0_24px_64px_rgba(0,0,0,0.14),0_8px_24px_rgba(0,0,0,0.06)] md:hover:scale-[1.02] md:hover:-translate-y-1 md:transition-all md:duration-500"
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -101,7 +113,7 @@ function WhatsAppDemo() {
       setTimeout(() => {
         const div = document.createElement('div')
         div.className = 'bg-[#DCF8C6] p-2 px-2.5 rounded-tl-none rounded-[7px] text-[12.5px] leading-[1.55] text-[#111] shadow-[0_1px_1px_rgba(0,0,0,0.06)] mb-1.5 max-w-[94%]'
-        div.innerHTML = msg.text + '<div class="text-[9px] text-[#999] text-left mt-0.5">07:0' + i + '</div>'
+        div.innerHTML = msg.text + '<div class="text-[9px] text-[#999] text-end mt-0.5">07:0' + i + '</div>'
         el.insertBefore(div, typing)
       }, msg.delay)
     })
@@ -111,7 +123,7 @@ function WhatsAppDemo() {
 
   return (
     <Section title={m.demo_title()} subtitle={m.demo_subtitle()} bg="gradient-alt">
-      <div className="max-w-[380px] mx-auto">
+      <div className="w-full max-w-[380px] mx-auto">
         <div className="phone-glass rounded-[28px] overflow-hidden">
           <div className="h-6 bg-white/40 flex items-center justify-center">
             <span className="w-[60px] h-1 bg-black/10 rounded-full" />
@@ -184,12 +196,12 @@ function Personas() {
 
   return (
     <Section title={m.personas_title()} subtitle={m.personas_subtitle()} bg="gradient-alt">
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2.5">
+      <div className="grid grid-cols-2 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 sm:gap-2.5">
         {items.map((p) => (
-          <div key={p.role} className="glass-card glass-card-hover rounded-[14px] p-5 text-center cursor-default">
-            <div className="text-[32px] mb-2">{p.emoji}</div>
-            <div className="text-[14px] font-bold mb-0.5">{p.role}</div>
-            <div className="text-[12px] text-text-muted">{p.need}</div>
+          <div key={p.role} className="glass-card glass-card-hover rounded-[14px] p-3.5 sm:p-5 text-center cursor-default">
+            <div className="text-[28px] sm:text-[32px] mb-1.5 sm:mb-2">{p.emoji}</div>
+            <div className="text-[13px] sm:text-[14px] font-bold mb-0.5 leading-tight">{p.role}</div>
+            <div className="text-[11.5px] sm:text-[12px] text-text-muted leading-tight">{p.need}</div>
           </div>
         ))}
       </div>
@@ -237,7 +249,7 @@ function Pricing() {
 
   return (
     <Section title={m.pricing_title()} subtitle="" bg="gradient-alt">
-      <div className="pricing-glass rounded-[22px] p-8 max-w-[480px] mx-auto text-center">
+      <div className="pricing-glass rounded-[22px] p-6 sm:p-8 max-w-[480px] mx-auto text-center">
         <div className="text-[48px] font-extrabold tracking-[-2px] text-text-primary mb-1">
           {m.pricing_amount()}<span className="text-[20px] font-normal text-text-muted ms-1">{m.pricing_period_suffix()}</span>
         </div>
@@ -262,12 +274,12 @@ function Pricing() {
 
 function FinalCTA() {
   return (
-    <section className="py-20 section-gradient-hero text-center px-8">
+    <section className="py-16 sm:py-20 section-gradient-hero text-center px-4 sm:px-6 md:px-8">
       <div className="max-w-[560px] mx-auto">
-        <h2 className="text-[clamp(28px,4.5vw,38px)] font-bold tracking-[-0.6px] mb-3">
+        <h2 className="text-[clamp(24px,5.5vw,38px)] font-bold tracking-[-0.6px] mb-3 break-words">
           {m.final_cta_title()}
         </h2>
-        <p className="text-[17px] text-text-secondary mb-8 leading-relaxed">
+        <p className="text-[clamp(15px,3.6vw,17px)] text-text-secondary mb-8 leading-relaxed">
           {m.final_cta_desc()}
         </p>
         <a href={ctaHref()} className="btn-brand">{hasAccount() ? m.final_cta_btn_login() : m.final_cta_btn()}</a>
@@ -280,11 +292,21 @@ function FinalCTA() {
 
 function Footer() {
   return (
-    <footer className="py-6 text-center text-[13px] text-text-muted border-t border-border-light bg-surface">
-      <div className="flex items-center justify-center gap-4 mb-1">
-        <Link to={localizeHref('/terms')} className="hover:text-text-secondary transition-colors">{m.footer_terms()}</Link>
-        <span>·</span>
-        <Link to={localizeHref('/privacy')} className="hover:text-text-secondary transition-colors">{m.footer_privacy()}</Link>
+    <footer className="py-6 text-center text-[13px] text-text-muted border-t border-border-light bg-surface safe-pb safe-px">
+      <div className="flex items-center justify-center flex-wrap gap-x-5 gap-y-1 mb-1">
+        <Link
+          to={localizeHref('/terms')}
+          className="inline-flex items-center min-h-[36px] px-1 hover:text-text-secondary transition-colors"
+        >
+          {m.footer_terms()}
+        </Link>
+        <span aria-hidden="true">·</span>
+        <Link
+          to={localizeHref('/privacy')}
+          className="inline-flex items-center min-h-[36px] px-1 hover:text-text-secondary transition-colors"
+        >
+          {m.footer_privacy()}
+        </Link>
       </div>
       {m.footer_copyright()}
     </footer>
@@ -301,11 +323,11 @@ function Section({ title, subtitle, children, bg }: {
 }) {
   const bgClass = bg === 'gradient' ? 'section-gradient' : bg === 'gradient-alt' ? 'section-gradient-alt' : 'bg-surface'
   return (
-    <section className={`py-20 px-8 ${bgClass}`}>
+    <section className={`py-14 sm:py-16 md:py-20 px-4 sm:px-6 md:px-8 ${bgClass}`}>
       <div className="max-w-[1080px] mx-auto">
-        <h2 className="text-[clamp(28px,4.5vw,38px)] font-bold text-center tracking-[-0.6px] mb-3">{title}</h2>
-        {subtitle && <p className="text-center text-[17px] text-text-secondary mb-12 max-w-[520px] mx-auto">{subtitle}</p>}
-        {!subtitle && <div className="mb-12" />}
+        <h2 className="text-[clamp(24px,5.5vw,38px)] font-bold text-center tracking-[-0.6px] mb-3 break-words">{title}</h2>
+        {subtitle && <p className="text-center text-[clamp(15px,3.6vw,17px)] text-text-secondary mb-10 sm:mb-12 max-w-[520px] mx-auto">{subtitle}</p>}
+        {!subtitle && <div className="mb-10 sm:mb-12" />}
         {children}
       </div>
     </section>

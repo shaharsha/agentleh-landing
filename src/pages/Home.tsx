@@ -51,7 +51,7 @@ function Hero() {
     <section className="pt-[140px] pb-16 section-gradient-hero relative overflow-hidden">
       <div className="max-w-[1080px] mx-auto px-8 relative">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-          <div className="text-right md:text-right text-center">
+          <div className="text-center md:text-start">
             <div className="glass-pill inline-flex items-center gap-1.5 text-brand px-3.5 py-1.5 rounded-full text-[13px] font-semibold mb-6">
               <span className="w-1.5 h-1.5 rounded-full bg-brand animate-pulse" />
               {m.hero_badge()}
@@ -66,7 +66,7 @@ function Hero() {
             <p className="text-[17px] text-text-secondary leading-relaxed mb-7">
               {m.hero_description()}
             </p>
-            <div className="flex flex-col items-start md:items-start items-center gap-2.5">
+            <div className="flex flex-col items-center md:items-start gap-2.5">
               <a href={appUrlWithLang()} className="btn-brand">{m.hero_cta()}</a>
               <span className="text-[13px] text-text-muted">{m.hero_price_note()}</span>
             </div>
@@ -239,10 +239,10 @@ function Pricing() {
     <Section title={m.pricing_title()} subtitle="" bg="gradient-alt">
       <div className="pricing-glass rounded-[22px] p-8 max-w-[480px] mx-auto text-center">
         <div className="text-[48px] font-extrabold tracking-[-2px] text-text-primary mb-1">
-          {m.pricing_amount()}<span className="text-[20px] font-normal text-text-muted mr-1">{m.pricing_period_suffix()}</span>
+          {m.pricing_amount()}<span className="text-[20px] font-normal text-text-muted ms-1">{m.pricing_period_suffix()}</span>
         </div>
         <p className="text-[15px] text-text-secondary mb-6">{m.pricing_note()}</p>
-        <ul className="space-y-3 text-right mb-8">
+        <ul className="space-y-3 text-start mb-8">
           {features.map((f) => (
             <li key={f} className="flex items-center gap-2 text-[14px] text-text-secondary">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#30D158" strokeWidth="2.5" strokeLinecap="round" className="shrink-0">

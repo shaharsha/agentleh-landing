@@ -60,7 +60,7 @@ function Hero() {
               {m.hero_headline_line1()}<br />
               <span className="relative inline-block">
                 {m.hero_headline_line2()}
-                <span className="absolute bottom-1 inset-x-[-0.25rem] h-3.5 bg-gradient-to-r from-brand/20 to-brand/5 rounded -z-10" />
+                <span className="absolute bottom-1 inset-x-[-0.25rem] h-3.5 rounded -z-10 bg-gradient-to-r rtl:bg-gradient-to-l from-brand/20 to-brand/5" />
               </span>
             </h1>
             <p className="text-[clamp(15px,3.6vw,17px)] text-text-secondary leading-relaxed mb-7">

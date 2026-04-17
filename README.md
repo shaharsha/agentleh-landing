@@ -1,4 +1,4 @@
-# agentiko-landing
+# agentleh-landing
 
 Marketing landing page for [Agentiko](https://agentiko.io) — Hebrew-first WhatsApp AI agent.
 

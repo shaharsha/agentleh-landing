@@ -1,38 +1,15 @@
-import { useEffect, useRef, useState } from 'react'
-import { LegalPageLayout } from './legal/LegalPageLayout'
-import { TermsContent } from './legal/TermsContent'
-import { TermsContentEn } from './legal/TermsContentEn'
-import { PrivacyContent } from './legal/PrivacyContent'
-import { PrivacyContentEn } from './legal/PrivacyContentEn'
+import { useEffect, useRef } from 'react'
+import { Link } from 'react-router-dom'
+import { m } from '../paraglide/messages'
+import { localizeHref } from '../paraglide/runtime'
+import { LanguageSwitcher } from '../i18n/LanguageSwitcher'
+import { SeoHead } from '../i18n/SeoHead'
+import { ctaHref, hasAccount } from '../i18n/appUrl'
 
-const APP_URL = import.meta.env.VITE_APP_URL
-
-export default function App() {
-  const [page, setPage] = useState(window.location.pathname)
-
-  useEffect(() => {
-    const onPop = () => setPage(window.location.pathname)
-    window.addEventListener('popstate', onPop)
-    return () => window.removeEventListener('popstate', onPop)
-  }, [])
-
-  function navigate(path: string) {
-    history.pushState(null, '', path)
-    setPage(path)
-    window.scrollTo(0, 0)
-  }
-
-  if (page === '/terms') return (
-    <LegalPageLayout title="תנאי שימוש" titleEn="Terms of Service" lastUpdated="אפריל 2026" onBack={() => navigate('/')}
-      heContent={<TermsContent />} enContent={<TermsContentEn />} />
-  )
-  if (page === '/privacy') return (
-    <LegalPageLayout title="מדיניות פרטיות" titleEn="Privacy Policy" lastUpdated="אפריל 2026" onBack={() => navigate('/')}
-      heContent={<PrivacyContent />} enContent={<PrivacyContentEn />} />
-  )
-
+export function Home() {
   return (
     <div className="min-h-screen">
+      <SeoHead title={m.meta_home_title()} description={m.meta_home_description()} />
       <Nav />
       <Hero />
       <WhatsAppDemo />
@@ -56,9 +33,12 @@ function Nav() {
           <span className="w-2 h-2 rounded-full bg-brand animate-pulse" />
           Agentiko
         </a>
-        <a href={APP_URL} className="btn-brand btn-sm">
-          התחל עכשיו
-        </a>
+        <div className="flex items-center gap-3">
+          <LanguageSwitcher />
+          <a href={ctaHref()} className="btn-brand btn-sm">
+            {hasAccount() ? m.nav_cta_login() : m.nav_cta()}
+          </a>
+        </div>
       </div>
     </nav>
   )
@@ -71,28 +51,28 @@ function Hero() {
     <section className="pt-[140px] pb-16 section-gradient-hero relative overflow-hidden">
       <div className="max-w-[1080px] mx-auto px-8 relative">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-          <div className="text-right md:text-right text-center">
+          <div className="text-center md:text-start">
             <div className="glass-pill inline-flex items-center gap-1.5 text-brand px-3.5 py-1.5 rounded-full text-[13px] font-semibold mb-6">
               <span className="w-1.5 h-1.5 rounded-full bg-brand animate-pulse" />
-              100 מקומות ראשונים בלבד
+              {m.hero_badge()}
             </div>
             <h1 className="text-[clamp(32px,5.5vw,50px)] font-extrabold leading-[1.12] tracking-[-1px] mb-5">
-              העוזר האישי שלך<br />
+              {m.hero_headline_line1()}<br />
               <span className="relative inline-block">
-                בוואטסאפ
+                {m.hero_headline_line2()}
                 <span className="absolute bottom-1 -right-1 -left-1 h-3.5 bg-gradient-to-l from-brand/20 to-brand/5 rounded -z-10" />
               </span>
             </h1>
             <p className="text-[17px] text-text-secondary leading-relaxed mb-7">
-              מסכם מיילים, קובע פגישות, כותב תכנים, מנתח מידע, מזהה כשלים ועושה סדר בכל הבלאגן. מחובר לכל הכלים שלך. מותקן ב3 דקות.
+              {m.hero_description()}
             </p>
-            <div className="flex flex-col items-start md:items-start items-center gap-2.5">
-              <a href={APP_URL} className="btn-brand">אני רוצה סוכן שעובד בשבילי</a>
-              <span className="text-[13px] text-text-muted">₪249/חודש. ביטול בכל רגע.</span>
+            <div className="flex flex-col items-center md:items-start gap-2.5">
+              <a href={ctaHref()} className="btn-brand">{hasAccount() ? m.hero_cta_login() : m.hero_cta()}</a>
+              <span className="text-[13px] text-text-muted">{m.hero_price_note()}</span>
             </div>
           </div>
           <div>
-            <img src="/hero.jpg" alt="Agentiko" className="w-full rounded-[22px] shadow-[0_24px_64px_rgba(0,0,0,0.14),0_8px_24px_rgba(0,0,0,0.06)] hover:scale-[1.02] hover:-translate-y-1 transition-all duration-500" />
+            <img src="/hero.jpg" alt={m.hero_img_alt()} className="w-full rounded-[22px] shadow-[0_24px_64px_rgba(0,0,0,0.14),0_8px_24px_rgba(0,0,0,0.06)] hover:scale-[1.02] hover:-translate-y-1 transition-all duration-500" />
           </div>
         </div>
       </div>
@@ -107,10 +87,10 @@ function WhatsAppDemo() {
 
   useEffect(() => {
     const messages = [
-      { text: '<b>בוקר טוב! הנה הסיכום שלך להיום:</b>', delay: 800 },
-      { text: '3 מיילים חדשים שדורשים תשובה. אחד מהם מלקוח שלא חזרת אליו יומיים.', delay: 1500 },
-      { text: 'היומן שלך היום: 10:00 שיחה עם נועם, 14:00 פגישת צוות. הכנתי לך סיכום מהפגישה הקודמת.', delay: 2200 },
-      { text: 'זיהיתי חשבונית מספק שלא טופלה 5 ימים. רוצה שאזכיר לך אחר הצהריים?', delay: 2900 },
+      { text: m.demo_msg_1_html(), delay: 800 },
+      { text: m.demo_msg_2(), delay: 1500 },
+      { text: m.demo_msg_3(), delay: 2200 },
+      { text: m.demo_msg_4(), delay: 2900 },
     ]
 
     const el = chatRef.current
@@ -130,7 +110,7 @@ function WhatsAppDemo() {
   }, [])
 
   return (
-    <Section title="ככה זה נראה כל בוקר ב7:00" subtitle="הסוכן שלך כבר סרק את המיילים, בדק את היומן, זיהה כשלים. הכל מוכן בוואטסאפ לפני שקמת." bg="gradient-alt">
+    <Section title={m.demo_title()} subtitle={m.demo_subtitle()} bg="gradient-alt">
       <div className="max-w-[380px] mx-auto">
         <div className="phone-glass rounded-[28px] overflow-hidden">
           <div className="h-6 bg-white/40 flex items-center justify-center">
@@ -138,7 +118,7 @@ function WhatsAppDemo() {
           </div>
           <div className="bg-[#075E54] px-3 py-2 flex items-center gap-2 text-white">
             <div className="w-7 h-7 rounded-full bg-brand flex items-center justify-center text-[12px] font-bold">A</div>
-            <div><div className="text-[13px] font-semibold">Agentiko</div><div className="text-[10px] opacity-70">מקליד...</div></div>
+            <div><div className="text-[13px] font-semibold">Agentiko</div><div className="text-[10px] opacity-70">{m.demo_typing()}</div></div>
           </div>
           <div ref={chatRef} className="p-2.5 bg-[#ECE5DD] min-h-[220px]">
             <div className="typing-dots inline-flex gap-[3px] p-1.5 px-2.5 bg-white rounded-[7px] mb-1.5">
@@ -150,7 +130,7 @@ function WhatsAppDemo() {
         </div>
       </div>
       <p className="text-center mt-4 text-[14px] text-brand font-semibold">
-        לא עושה כלום בלי אישור שלך. אתה בשליטה מלאה.
+        {m.demo_footer()}
       </p>
     </Section>
   )
@@ -158,20 +138,20 @@ function WhatsAppDemo() {
 
 /* ── Features ─────────────────────────────── */
 
-const FEATURES = [
-  { icon: '📧', title: 'סיכום מיילים וזיהוי כשלים', desc: 'עובר על כל המיילים, מסנן ספאם, מזהה מיילים שנפלו בין הכיסאות.', tag: 'מונע נזקים' },
-  { icon: '📊', title: 'סיכום מכירות וניתוח מידע', desc: 'מרכז נתונים מהמייל, מה-CRM, מהשיטס. מזהה מגמות ומציג ביצועים.', tag: 'ראש גדול' },
-  { icon: '📅', title: 'קובע פגישות ומנהל יומן', desc: 'מציע זמנים, מתאם עם אנשים, מציג את הפגישות עם כל ההקשר.', tag: 'חוסך 30 דק\'/יום' },
-  { icon: '✏️', title: 'כותב תכנים ודרפטים', desc: 'טיוטות מיילים, פוסטים, הצעות מחיר, סיכומי פגישות. אתה רק עורך.', tag: 'יוצר תוכן' },
-  { icon: '🔍', title: 'מזהה כשלים בעסק', desc: 'לקוח שלא ענית? משימה שעברה דדליין? חשבונית שלא נשלחה?', tag: 'שומר עליך' },
-  { icon: '✅', title: 'ניהול משימות ופולואפ', desc: 'מפרק פרויקטים למשימות, עוקב אחרי דדליינים, מזכיר אוטומטית.', tag: 'מנהל ת\'סדר' },
-]
-
 function Features() {
+  const items = [
+    { icon: '📧', title: m.features_emails_title(), desc: m.features_emails_desc(), tag: m.features_emails_tag() },
+    { icon: '📊', title: m.features_sales_title(), desc: m.features_sales_desc(), tag: m.features_sales_tag() },
+    { icon: '📅', title: m.features_meetings_title(), desc: m.features_meetings_desc(), tag: m.features_meetings_tag() },
+    { icon: '✏️', title: m.features_content_title(), desc: m.features_content_desc(), tag: m.features_content_tag() },
+    { icon: '🔍', title: m.features_detect_title(), desc: m.features_detect_desc(), tag: m.features_detect_tag() },
+    { icon: '✅', title: m.features_tasks_title(), desc: m.features_tasks_desc(), tag: m.features_tasks_tag() },
+  ]
+
   return (
-    <Section title="לא סתם עוזר. עובד אמיתי." subtitle="הנה מה שהסוכן שלך עושה כל יום, בלי שתבקש" bg="gradient">
+    <Section title={m.features_title()} subtitle={m.features_subtitle()} bg="gradient">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        {FEATURES.map((f) => (
+        {items.map((f) => (
           <div key={f.title} className="glass-card glass-card-hover rounded-[14px] p-6 cursor-default">
             <div className="text-[28px] mb-3">{f.icon}</div>
             <h3 className="text-[16px] font-bold mb-1.5">{f.title}</h3>
@@ -186,26 +166,26 @@ function Features() {
 
 /* ── Personas ─────────────────────────────── */
 
-const PERSONAS = [
-  { emoji: '⚖️', role: 'עורכת דין', need: 'מעקב לקוחות ותיקים' },
-  { emoji: '💻', role: 'מנהל פרויקטים', need: 'תיעדוף וסדר ביומן' },
-  { emoji: '🏫', role: 'מורה ואמא', need: 'ניהול בית + עבודה' },
-  { emoji: '📈', role: 'רואה חשבון', need: 'ריכוז חשבוניות ומיילים' },
-  { emoji: '💪', role: 'מאמנת', need: 'שיווק, פולואפ, תוכן' },
-  { emoji: '💼', role: 'עצמאי', need: 'סדר בכל הבלאגן' },
-  { emoji: '👩‍💻', role: 'מנהלת בארגון', need: 'תיאום פגישות ודוחות' },
-  { emoji: '💊', role: 'רופאה', need: 'סקירת מחקרים' },
-  { emoji: '✈️', role: 'סוכן נסיעות', need: 'מעקב טיסות ולקוחות' },
-  { emoji: '🎨', role: 'מעצב', need: 'ניהול צוות ומשימות' },
-  { emoji: '🏠', role: 'נדלניסט', need: 'מעקב עסקאות ולידים' },
-  { emoji: '📚', role: 'סטודנט', need: 'ארגון לימודים ומטלות' },
-]
-
 function Personas() {
+  const items = [
+    { emoji: '⚖️', role: m.persona_lawyer_role(), need: m.persona_lawyer_need() },
+    { emoji: '💻', role: m.persona_pm_role(), need: m.persona_pm_need() },
+    { emoji: '🏫', role: m.persona_teacher_role(), need: m.persona_teacher_need() },
+    { emoji: '📈', role: m.persona_accountant_role(), need: m.persona_accountant_need() },
+    { emoji: '💪', role: m.persona_coach_role(), need: m.persona_coach_need() },
+    { emoji: '💼', role: m.persona_freelancer_role(), need: m.persona_freelancer_need() },
+    { emoji: '👩‍💻', role: m.persona_manager_role(), need: m.persona_manager_need() },
+    { emoji: '💊', role: m.persona_doctor_role(), need: m.persona_doctor_need() },
+    { emoji: '✈️', role: m.persona_travel_role(), need: m.persona_travel_need() },
+    { emoji: '🎨', role: m.persona_designer_role(), need: m.persona_designer_need() },
+    { emoji: '🏠', role: m.persona_realtor_role(), need: m.persona_realtor_need() },
+    { emoji: '📚', role: m.persona_student_role(), need: m.persona_student_need() },
+  ]
+
   return (
-    <Section title="לכל מי שצריך עוזר אישי" subtitle="לא משנה מה התפקיד שלך. אם יש לך מיילים, יומן ומשימות — יש לך סוכן." bg="gradient-alt">
+    <Section title={m.personas_title()} subtitle={m.personas_subtitle()} bg="gradient-alt">
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2.5">
-        {PERSONAS.map((p) => (
+        {items.map((p) => (
           <div key={p.role} className="glass-card glass-card-hover rounded-[14px] p-5 text-center cursor-default">
             <div className="text-[32px] mb-2">{p.emoji}</div>
             <div className="text-[14px] font-bold mb-0.5">{p.role}</div>
@@ -219,17 +199,17 @@ function Personas() {
 
 /* ── How It Works ─────────────────────────── */
 
-const STEPS = [
-  { num: '1', title: 'משלמים ומקבלים הודעה', desc: 'תוך 3 דקות הסוכן שלך שולח לך הודעה ראשונה בוואטסאפ.' },
-  { num: '2', title: 'מחברים את הכלים בקליק', desc: 'Gmail, Calendar, CRM, Slack — קליק אחד ליצור חיבור.' },
-  { num: '3', title: 'מחר בבוקר הוא כבר עובד', desc: 'הסוכן מתחיל לסרוק, ללמוד, ולשלוח לך עדכונים.' },
-]
-
 function HowItWorks() {
+  const steps = [
+    { num: '1', title: m.step_1_title(), desc: m.step_1_desc() },
+    { num: '2', title: m.step_2_title(), desc: m.step_2_desc() },
+    { num: '3', title: m.step_3_title(), desc: m.step_3_desc() },
+  ]
+
   return (
-    <Section title="3 צעדים. 3 דקות. אפס טכנולוגיה." subtitle="" bg="gradient">
+    <Section title={m.how_it_works_title()} subtitle="" bg="gradient">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-[800px] mx-auto">
-        {STEPS.map((s) => (
+        {steps.map((s) => (
           <div key={s.num} className="glass-card rounded-[22px] p-6 text-center">
             <div className="step-num w-12 h-12 rounded-full text-white text-[20px] font-bold flex items-center justify-center mx-auto mb-4">
               {s.num}
@@ -246,15 +226,24 @@ function HowItWorks() {
 /* ── Pricing ──────────────────────────────── */
 
 function Pricing() {
+  const features = [
+    m.pricing_feature_1(),
+    m.pricing_feature_2(),
+    m.pricing_feature_3(),
+    m.pricing_feature_4(),
+    m.pricing_feature_5(),
+    m.pricing_feature_6(),
+  ]
+
   return (
-    <Section title="עוזר אישי ב₪8 ליום" subtitle="" bg="gradient-alt">
+    <Section title={m.pricing_title()} subtitle="" bg="gradient-alt">
       <div className="pricing-glass rounded-[22px] p-8 max-w-[480px] mx-auto text-center">
         <div className="text-[48px] font-extrabold tracking-[-2px] text-text-primary mb-1">
-          ₪249<span className="text-[20px] font-normal text-text-muted mr-1">/חודש</span>
+          {m.pricing_amount()}<span className="text-[20px] font-normal text-text-muted ms-1">{m.pricing_period_suffix()}</span>
         </div>
-        <p className="text-[15px] text-text-secondary mb-6">הכל כלול. בלי הפתעות. ביטול בכל רגע.</p>
-        <ul className="space-y-3 text-right mb-8">
-          {['סוכן AI אישי בוואטסאפ', 'חיבור ל-Gmail, Calendar, CRM', 'זיכרון מלא — זוכר הכל', 'סיכומים יומיים אוטומטיים', 'זיהוי כשלים והתראות', 'תמיכה בעברית טבעית'].map((f) => (
+        <p className="text-[15px] text-text-secondary mb-6">{m.pricing_note()}</p>
+        <ul className="space-y-3 text-start mb-8">
+          {features.map((f) => (
             <li key={f} className="flex items-center gap-2 text-[14px] text-text-secondary">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#30D158" strokeWidth="2.5" strokeLinecap="round" className="shrink-0">
                 <polyline points="20 6 9 17 4 12" />
@@ -263,7 +252,7 @@ function Pricing() {
             </li>
           ))}
         </ul>
-        <a href={APP_URL} className="btn-brand w-full">אני רוצה סוכן אישי</a>
+        <a href={ctaHref()} className="btn-brand w-full">{hasAccount() ? m.pricing_cta_login() : m.pricing_cta()}</a>
       </div>
     </Section>
   )
@@ -276,12 +265,12 @@ function FinalCTA() {
     <section className="py-20 section-gradient-hero text-center px-8">
       <div className="max-w-[560px] mx-auto">
         <h2 className="text-[clamp(28px,4.5vw,38px)] font-bold tracking-[-0.6px] mb-3">
-          מחר בבוקר יש לך עובד חדש
+          {m.final_cta_title()}
         </h2>
         <p className="text-[17px] text-text-secondary mb-8 leading-relaxed">
-          הוא לא ישן, לא שוכח, לא מפספס. מחובר לכל הכלים שלך ומדבר עברית מושלמת.
+          {m.final_cta_desc()}
         </p>
-        <a href={APP_URL} className="btn-brand">אני רוצה להיות מה100 הראשונים</a>
+        <a href={ctaHref()} className="btn-brand">{hasAccount() ? m.final_cta_btn_login() : m.final_cta_btn()}</a>
       </div>
     </section>
   )
@@ -293,11 +282,11 @@ function Footer() {
   return (
     <footer className="py-6 text-center text-[13px] text-text-muted border-t border-border-light bg-surface">
       <div className="flex items-center justify-center gap-4 mb-1">
-        <a href="/terms" onClick={(e) => { e.preventDefault(); history.pushState(null, '', '/terms'); window.dispatchEvent(new PopStateEvent('popstate')) }} className="hover:text-text-secondary transition-colors">תנאי שימוש</a>
+        <Link to={localizeHref('/terms')} className="hover:text-text-secondary transition-colors">{m.footer_terms()}</Link>
         <span>·</span>
-        <a href="/privacy" onClick={(e) => { e.preventDefault(); history.pushState(null, '', '/privacy'); window.dispatchEvent(new PopStateEvent('popstate')) }} className="hover:text-text-secondary transition-colors">מדיניות פרטיות</a>
+        <Link to={localizeHref('/privacy')} className="hover:text-text-secondary transition-colors">{m.footer_privacy()}</Link>
       </div>
-      &copy; 2026 Agentiko. כל הזכויות שמורות.
+      {m.footer_copyright()}
     </footer>
   )
 }
@@ -322,4 +311,3 @@ function Section({ title, subtitle, children, bg }: {
     </section>
   )
 }
-

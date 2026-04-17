@@ -7,6 +7,14 @@ import { PrivacyContentEn } from './legal/PrivacyContentEn'
 
 const APP_URL = import.meta.env.VITE_APP_URL
 
+const hasAccount = typeof document !== 'undefined'
+  && document.cookie.split('; ').includes('agentleh_has_account=1')
+const CTA_HREF = hasAccount ? APP_URL : `${APP_URL}/signup`
+const CTA_SHORT = hasAccount ? 'התחברות' : 'התחל עכשיו'
+const CTA_HERO = hasAccount ? 'התחברות לחשבון שלי' : 'אני רוצה סוכן שעובד בשבילי'
+const CTA_PRICING = hasAccount ? 'התחברות לחשבון' : 'אני רוצה סוכן אישי'
+const CTA_FINAL = hasAccount ? 'התחברות לחשבון' : 'אני רוצה להיות מה100 הראשונים'
+
 export default function App() {
   const [page, setPage] = useState(window.location.pathname)
 
@@ -56,8 +64,8 @@ function Nav() {
           <span className="w-2 h-2 rounded-full bg-brand animate-pulse" />
           Agentiko
         </a>
-        <a href={APP_URL} className="btn-brand btn-sm">
-          התחל עכשיו
+        <a href={CTA_HREF} className="btn-brand btn-sm">
+          {CTA_SHORT}
         </a>
       </div>
     </nav>
@@ -87,7 +95,7 @@ function Hero() {
               מסכם מיילים, קובע פגישות, כותב תכנים, מנתח מידע, מזהה כשלים ועושה סדר בכל הבלאגן. מחובר לכל הכלים שלך. מותקן ב3 דקות.
             </p>
             <div className="flex flex-col items-start md:items-start items-center gap-2.5">
-              <a href={APP_URL} className="btn-brand">אני רוצה סוכן שעובד בשבילי</a>
+              <a href={CTA_HREF} className="btn-brand">{CTA_HERO}</a>
               <span className="text-[13px] text-text-muted">₪249/חודש. ביטול בכל רגע.</span>
             </div>
           </div>
@@ -263,7 +271,7 @@ function Pricing() {
             </li>
           ))}
         </ul>
-        <a href={APP_URL} className="btn-brand w-full">אני רוצה סוכן אישי</a>
+        <a href={CTA_HREF} className="btn-brand w-full">{CTA_PRICING}</a>
       </div>
     </Section>
   )
@@ -281,7 +289,7 @@ function FinalCTA() {
         <p className="text-[17px] text-text-secondary mb-8 leading-relaxed">
           הוא לא ישן, לא שוכח, לא מפספס. מחובר לכל הכלים שלך ומדבר עברית מושלמת.
         </p>
-        <a href={APP_URL} className="btn-brand">אני רוצה להיות מה100 הראשונים</a>
+        <a href={CTA_HREF} className="btn-brand">{CTA_FINAL}</a>
       </div>
     </section>
   )

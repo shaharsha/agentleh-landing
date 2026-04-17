@@ -5,7 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite-react-ssg build",
+    "paraglide:compile": "paraglide-js compile --project ./project.inlang --outdir ./src/paraglide",
+    "postinstall": "npm run paraglide:compile",
+    "build": "npm run paraglide:compile && tsc -b && vite-react-ssg build",
     "lint": "eslint .",
     "preview": "vite preview"
   },

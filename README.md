@@ -10,6 +10,18 @@ React 19 + TypeScript + Vite + Tailwind CSS 4
 
 Liquid Glass design system shared with the [app](https://github.com/shaharsha/agentleh-app). Shared CSS classes: `glass-nav`, `glass-card`, `glass-card-elevated`, `btn-brand`, `section-gradient`.
 
+### Brand
+
+Full brand spec lives at the parent repo root: [BRAND.md](../BRAND.md) + [BRAND.html](../BRAND.html) / [BRAND.pdf](../BRAND.pdf) (printable brand book). Primary palette: cream `#F3EAD3`, navy `#0E1320`, terracotta `#B85A3A`.
+
+Semantic utilities (not raw Tailwind colors):
+
+- **Brand**: `bg-brand` / `text-brand` (+ `-light` / `-dark` / `-50` / `-100`)
+- **Surface / text / border**: `bg-surface` / `text-text-primary` / `text-text-secondary` / `text-text-muted` / `border-border`
+- **Semantic**: `text-danger` / `bg-danger-light`, plus `warning`, `success`, `info`
+
+Canonical logos at [public/brand/](public/brand/) — bubble-"a" icon + wordmark, light + dark, SVG + PNG. Hero imagery at [public/hero.jpg](public/hero.jpg) (light) + [public/hero-dark.jpg](public/hero-dark.jpg).
+
 ## Environments
 
 | | URL | Branch | Service |

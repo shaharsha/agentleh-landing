@@ -69,6 +69,18 @@ jobs:
             --region=europe-west3 \
             --quiet
 
+      - name: Invalidate Cloud CDN cache
+        # nginx caches static assets (favicon.svg, hero.jpg, manifest.json, etc.)
+        # via Cache-Control: max-age=2592000 for 30 days. Without a post-deploy
+        # invalidation, new assets serve stale for up to a month. Path "/*"
+        # clears every cached entry on the LB — fine for this static site.
+        # --async returns immediately; the invalidation still runs (~1 minute).
+        run: |
+          gcloud compute url-maps invalidate-cdn-cache agentleh-urlmap \
+            --path="/*" \
+            --async \
+            --quiet
+
       - name: Verify
         run: |
           for i in $(seq 1 10); do

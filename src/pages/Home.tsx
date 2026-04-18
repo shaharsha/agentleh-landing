@@ -30,10 +30,9 @@ function Nav() {
   return (
     <nav className="glass-nav sticky top-0 z-50 safe-px safe-pt py-2.5">
       <div className="max-w-[1080px] mx-auto flex items-center justify-between gap-2">
-        <a href="#" className="flex items-center gap-2 text-[17px] sm:text-[18px] font-bold tracking-[-0.3px] text-text-primary no-underline shrink-0">
-          <img src="/brand/logo-icon.svg" alt="" aria-hidden="true" className="w-7 h-7 sm:w-8 sm:h-8 block dark:hidden" />
-          <img src="/brand/logo-icon-dark.svg" alt="" aria-hidden="true" className="w-7 h-7 sm:w-8 sm:h-8 hidden dark:block" />
-          Agentiko
+        <a href="#" aria-label="Agentiko" className="flex items-center no-underline shrink-0">
+          <img src="/brand/logo-wordmark.svg" alt="Agentiko" className="h-6 sm:h-7 w-auto block dark:hidden" />
+          <img src="/brand/logo-wordmark-dark.svg" alt="Agentiko" className="h-6 sm:h-7 w-auto hidden dark:block" />
         </a>
         <div className="flex items-center gap-2 sm:gap-3">
           <ThemeSwitcher />

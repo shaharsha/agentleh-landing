@@ -3,6 +3,7 @@ import { getLocale, localizeHref, deLocalizeHref } from '../paraglide/runtime'
 import { useLocation } from 'react-router-dom'
 
 const SITE_ORIGIN = 'https://agentiko.io'
+const OG_IMAGE = `${SITE_ORIGIN}/og-image.png`
 
 /**
  * Per-locale SEO <head> block: title, description, hreflang alternates,
@@ -36,9 +37,17 @@ export function SeoHead({ title, description }: { title: string; description: st
       <meta property="og:locale" content={ogLocale} />
       <meta property="og:url" content={selfUrl} />
       <meta property="og:type" content="website" />
+      <meta property="og:site_name" content="Agentiko" />
+      <meta property="og:image" content={OG_IMAGE} />
+      <meta property="og:image:width" content="1200" />
+      <meta property="og:image:height" content="630" />
+      <meta property="og:image:type" content="image/png" />
+      <meta property="og:image:alt" content={title} />
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:title" content={title} />
       <meta name="twitter:description" content={description} />
+      <meta name="twitter:image" content={OG_IMAGE} />
+      <meta name="twitter:image:alt" content={title} />
     </Head>
   )
 }

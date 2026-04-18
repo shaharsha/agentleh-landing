@@ -52,18 +52,20 @@
 :root {
   color-scheme: light;
 
-  /* Glass surfaces (rgba so backdrop-filter still shines through) */
-  --glass-nav-bg: rgba(255, 255, 255, 0.65);
-  --glass-nav-border: rgba(255, 255, 255, 0.3);
-  --glass-card-bg: rgba(255, 255, 255, 0.55);
-  --glass-card-bg-hover: rgba(255, 255, 255, 0.75);
-  --glass-card-border: rgba(255, 255, 255, 0.6);
-  --glass-elevated-bg: rgba(255, 255, 255, 0.72);
-  --glass-elevated-border: rgba(255, 255, 255, 0.5);
-  --glass-pill-bg: rgba(255, 255, 255, 0.5);
-  --glass-pill-border: rgba(255, 255, 255, 0.4);
-  --glass-phone-bg: rgba(255, 255, 255, 0.6);
-  --glass-phone-border: rgba(255, 255, 255, 0.5);
+  /* Glass surfaces (rgba so backdrop-filter still shines through).
+   * Sitting on cream #F3EAD3 — plain white at higher alpha gives a
+   * paper-on-cream lift that actually reads. */
+  --glass-nav-bg: rgba(255, 255, 255, 0.78);
+  --glass-nav-border: rgba(255, 255, 255, 0.4);
+  --glass-card-bg: rgba(255, 255, 255, 0.85);
+  --glass-card-bg-hover: rgba(255, 255, 255, 0.95);
+  --glass-card-border: rgba(255, 255, 255, 0.7);
+  --glass-elevated-bg: rgba(255, 255, 255, 0.95);
+  --glass-elevated-border: rgba(255, 255, 255, 0.6);
+  --glass-pill-bg: rgba(255, 255, 255, 0.7);
+  --glass-pill-border: rgba(255, 255, 255, 0.5);
+  --glass-phone-bg: rgba(255, 255, 255, 0.85);
+  --glass-phone-border: rgba(255, 255, 255, 0.7);
 
   /* Shadow tints (black-on-light / black-on-dark feel) */
   --shadow-rgb: 0, 0, 0;
@@ -92,23 +94,23 @@ html[data-theme="dark"] {
     --color-surface-soft: #141828;
     --color-text-primary: #F3EAD3;
     --color-text-secondary: #D4C4A0;
-    --color-text-muted: #8A7860;
-    --color-border: #1F2740;
-    --color-border-light: #141828;
+    --color-text-muted: #B8A595;
+    --color-border: #2A3350;
+    --color-border-light: #1F2740;
     --color-brand-50: #2A1810;
     --color-brand-100: #3D2416;
 
-    /* Glass goes dark-tinted; keep backdrop-filter doing the heavy lift */
-    --glass-nav-bg: rgba(22, 18, 14, 0.72);
+    /* Glass goes navy-tinted so cards lift visibly above navy-900 body */
+    --glass-nav-bg: rgba(20, 24, 40, 0.78);
     --glass-nav-border: rgba(255, 255, 255, 0.06);
-    --glass-card-bg: rgba(30, 24, 20, 0.55);
-    --glass-card-bg-hover: rgba(38, 30, 24, 0.7);
+    --glass-card-bg: rgba(31, 39, 64, 0.7);
+    --glass-card-bg-hover: rgba(41, 49, 74, 0.85);
     --glass-card-border: rgba(255, 255, 255, 0.08);
-    --glass-elevated-bg: rgba(38, 30, 24, 0.72);
-    --glass-elevated-border: rgba(255, 255, 255, 0.08);
-    --glass-pill-bg: rgba(30, 24, 20, 0.5);
-    --glass-pill-border: rgba(255, 255, 255, 0.06);
-    --glass-phone-bg: rgba(30, 24, 20, 0.6);
+    --glass-elevated-bg: rgba(41, 49, 74, 0.82);
+    --glass-elevated-border: rgba(255, 255, 255, 0.1);
+    --glass-pill-bg: rgba(31, 39, 64, 0.6);
+    --glass-pill-border: rgba(255, 255, 255, 0.08);
+    --glass-phone-bg: rgba(31, 39, 64, 0.7);
     --glass-phone-border: rgba(255, 255, 255, 0.08);
 
     --shadow-rgb: 0, 0, 0;

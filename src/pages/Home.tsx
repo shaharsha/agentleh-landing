@@ -29,7 +29,7 @@ export function Home() {
 
 function Nav() {
   return (
-    <nav className="glass-nav sticky top-0 z-50 safe-px safe-pt py-2.5">
+    <nav className="glass-nav sticky top-0 z-50 safe-px pt-[calc(0.625rem+1px+env(safe-area-inset-top,0px))] pb-2.5">
       <div className="max-w-[1080px] mx-auto flex items-center justify-between gap-2">
         <a href="#" aria-label="Agentiko" className="flex items-center no-underline shrink-0">
           <img src="/brand/logo-wordmark.svg" alt="Agentiko" className="h-6 sm:h-7 w-auto block dark:hidden" />

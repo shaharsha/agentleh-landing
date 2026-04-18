@@ -6,6 +6,7 @@ import {
   baseLocale,
   type Locale,
 } from './paraglide/runtime'
+import { ScrollToTop } from './components/ScrollToTop'
 // Importing this file is enough to initialize the theme store at module
 // scope — no provider component needed.
 import './theme/store'
@@ -37,6 +38,7 @@ export function Layout() {
       <Head>
         <html lang={lang} dir={dir} />
       </Head>
+      <ScrollToTop />
       <Outlet />
     </>
   )

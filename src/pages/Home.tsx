@@ -31,7 +31,8 @@ function Nav() {
     <nav className="glass-nav sticky top-0 z-50 safe-px safe-pt py-2.5">
       <div className="max-w-[1080px] mx-auto flex items-center justify-between gap-2">
         <a href="#" className="flex items-center gap-2 text-[17px] sm:text-[18px] font-bold tracking-[-0.3px] text-text-primary no-underline shrink-0">
-          <span className="w-2 h-2 rounded-full bg-brand animate-pulse" />
+          <img src="/brand/logo-icon.svg" alt="" aria-hidden="true" className="w-7 h-7 sm:w-8 sm:h-8 block dark:hidden" />
+          <img src="/brand/logo-icon-dark.svg" alt="" aria-hidden="true" className="w-7 h-7 sm:w-8 sm:h-8 hidden dark:block" />
           Agentiko
         </a>
         <div className="flex items-center gap-2 sm:gap-3">
@@ -82,7 +83,16 @@ function Hero() {
                 fetchPriority="high"
                 decoding="async"
                 sizes="(max-width: 768px) 100vw, 540px"
-                className="absolute inset-0 w-full h-full object-cover rounded-[22px] shadow-[0_24px_64px_rgba(0,0,0,0.14),0_8px_24px_rgba(0,0,0,0.06)] md:hover:scale-[1.02] md:hover:-translate-y-1 md:transition-all md:duration-500"
+                className="absolute inset-0 w-full h-full object-cover rounded-[22px] shadow-[0_24px_64px_rgba(0,0,0,0.14),0_8px_24px_rgba(0,0,0,0.06)] md:hover:scale-[1.02] md:hover:-translate-y-1 md:transition-all md:duration-500 block dark:hidden"
+              />
+              <img
+                src="/hero-dark.jpg"
+                alt={m.hero_img_alt()}
+                loading="eager"
+                fetchPriority="high"
+                decoding="async"
+                sizes="(max-width: 768px) 100vw, 540px"
+                className="absolute inset-0 w-full h-full object-cover rounded-[22px] shadow-[0_24px_64px_rgba(0,0,0,0.14),0_8px_24px_rgba(0,0,0,0.06)] md:hover:scale-[1.02] md:hover:-translate-y-1 md:transition-all md:duration-500 hidden dark:block"
               />
             </div>
           </div>

@@ -310,6 +310,317 @@ html[data-theme="dark"] .glass-nav {
 }
 
 /* ═══════════════════════════════════════════
+   HERO SECTION — "everything has a heartbeat"
+   No card, no shadow, no thumbnail. The illustration belongs to the
+   whole section. Every terracotta element on the hero is a voice dot,
+   and they all pulse in sync on a 1.8s cadence — the page has one
+   heartbeat. The hero-illustration-layer below renders the oversized
+   ghost watermark (faded bubble silhouette) and the primary voice-dot;
+   the .voice-dot-punct spans in the text act as in-line heartbeats
+   on the headline period and the price-tag, all driven by the same
+   @keyframes voice-pulse so they breathe together.
+   ═══════════════════════════════════════════ */
+
+.hero-section {
+  background:
+    /* terracotta cloud low-right — the "horizon" the voice dot hovers over */
+    radial-gradient(ellipse 75% 60% at 82% 72%, rgba(184,90,58,0.22) 0%, transparent 60%),
+    /* rose cloud bottom-left — echoes the painterly dust field */
+    radial-gradient(ellipse 60% 55% at 14% 84%, rgba(196,116,134,0.18) 0%, transparent 60%),
+    /* starlight bloom upper-centre — keeps the mark's quiet region */
+    radial-gradient(ellipse 65% 45% at 55% -8%, rgba(207,217,226,0.18) 0%, transparent 65%),
+    linear-gradient(180deg, var(--section-hero-1) 0%, var(--section-hero-2) 55%, var(--section-hero-3) 100%);
+  color: var(--color-text-primary);
+}
+html[data-theme="dark"] .hero-section {
+  background:
+    radial-gradient(ellipse 75% 60% at 82% 72%, rgba(184,90,58,0.48) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 55% at 14% 84%, rgba(196,116,134,0.38) 0%, transparent 60%),
+    radial-gradient(ellipse 65% 45% at 55% -8%, rgba(207,217,226,0.08) 0%, transparent 65%),
+    linear-gradient(180deg, var(--section-hero-1) 0%, var(--section-hero-2) 55%, var(--section-hero-3) 100%);
+}
+
+/* Paper grain — data-URI SVG feTurbulence noise overlay. BRAND's
+   explicit "Pentagram/Shinola move": cream reads as real paper, not
+   flat screen fill. Multiplied in at ~6% so it's a texture, not a
+   pattern you consciously see. */
+.hero-paper-grain {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.55;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' seed='7' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.055   0 0 0 0 0.075   0 0 0 0 0.125   0 0 0 0.09 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  background-size: 240px 240px;
+}
+html[data-theme="dark"] .hero-paper-grain {
+  opacity: 0.6;
+  mix-blend-mode: screen;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' seed='7' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.88   0 0 0 0 0.82   0 0 0 0 0.70   0 0 0 0.05 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+}
+
+/* Illustration layer — the editorial "morning briefing" that lives
+   behind the mega headline as a watermark. Absolute, full-bleed,
+   pointer-events disabled so nothing blocks the CTA. */
+.hero-illustration-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+/* ─── morning-briefing layer ─────────────────────────────────
+   An editorial ledger column — "what the agent handled overnight"
+   — rendered in warm editorial type at a considered size. On
+   desktop it watermarks the hero at ~32% opacity so the headline
+   overlays it like a magazine cover sitting on its feature
+   article. On mobile it moves inline below the CTA at full opacity
+   (proof point, not texture).                                  */
+.hero-briefing {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  /* flex-end respects writing direction automatically: right in
+     LTR, left in RTL. Pairs with hero-text-col being pinned to the
+     inline-start edge via margin-inline-end: auto. */
+  justify-content: flex-end;
+  padding: clamp(24px, 4vw, 64px) 0;
+  opacity: 1;
+  color: var(--color-text-primary);
+  font-feature-settings: "ss01", "ss02";
+  letter-spacing: -0.01em;
+}
+
+.hero-briefing-inner {
+  /* A fixed "column" roughly 1/3 of the container width, pinned to
+     the right edge. Has its own lane so it never overlaps the
+     headline even at narrow desktop widths. */
+  max-width: clamp(260px, 32vw, 400px);
+  width: 100%;
+  font-size: clamp(15px, 1.25vw, 18px);
+  line-height: 1.5;
+  /* Text in the briefing is faded — the voice-dot bullets stay
+     fully saturated so the brand's terracotta semantic still
+     punches through. */
+  color: color-mix(in oklab, var(--color-text-primary) 55%, transparent);
+}
+html[data-theme="dark"] .hero-briefing-inner {
+  color: color-mix(in oklab, var(--color-text-primary) 50%, transparent);
+}
+
+/* Desktop: cap the text column and pin it to the inline-start edge
+   of the container so LTR ends up left / RTL ends up right, with
+   the briefing always taking the opposite lane (flex-end respects
+   writing direction on its own). */
+@media (min-width: 768px) {
+  .hero-text-col {
+    max-width: 520px;
+    margin-inline-end: auto;
+    margin-inline-start: 0;
+  }
+}
+
+/* Ledger head — small italic timestamp with a voice dot prefix.
+   Reads as "the agent signed this at 07:00." */
+.hero-briefing-head {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 clamp(14px, 1.6vw, 20px) 0;
+  font-size: 0.75em;
+  font-style: italic;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+  border-bottom: 1px solid var(--color-border);
+  padding-bottom: clamp(10px, 1.2vw, 14px);
+  width: 100%;
+}
+.hero-briefing-time { font-variant-numeric: tabular-nums; }
+
+.hero-briefing-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(10px, 1.1vw, 14px);
+}
+.hero-briefing-list li {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+}
+[dir="rtl"] .hero-briefing-list li { gap: 14px; }
+
+/* Bullet — a tiny terracotta voice dot, brand §3 literal spec. Not
+   animated on the static items; only the final "working…" bullet
+   animates. */
+.hero-briefing-bullet {
+  flex-shrink: 0;
+  width: 6px;
+  height: 6px;
+  border-radius: 9999px;
+  background: var(--color-brand);
+  translate: 0 -3px;
+}
+.hero-briefing-text { color: var(--color-text-primary); }
+
+/* The final row — the agent is still at work. The voice dot pulses,
+   the text reads as an in-progress sentence (trailing ellipsis). */
+.hero-briefing-working { opacity: 0.72; }
+.hero-briefing-working-text::after {
+  content: '…';
+}
+.hero-briefing-working-text::before {
+  /* "Working on" / "עובד על" — kept as CSS content so it doesn't
+     need a translation key. Falls back to the ellipsis after. */
+  content: 'working on your inbox';
+}
+[lang="he"] .hero-briefing-working-text::before,
+[dir="rtl"] .hero-briefing-working-text::before {
+  content: 'מטפל בדואר שלך';
+}
+
+/* Ghost watermark — bubble silhouette at 12% opacity (light) / 18%
+   (dark). The only fully-saturated element in the layer is the
+   voice dot inside it. KEPT in case another page still uses it;
+   the hero itself no longer renders the old HeroBubble SVG. */
+.hero-bubble-ghost ellipse {
+  fill: var(--color-text-primary);
+  opacity: 0.11;
+}
+html[data-theme="dark"] .hero-bubble-ghost ellipse {
+  opacity: 0.14;
+}
+
+/* Voice dot — SVG primary. Same cadence as all other dots. */
+.voice-dot {
+  fill: var(--color-brand);
+  transform-origin: center center;
+  transform-box: fill-box;
+  animation: voice-pulse 1.8s ease-in-out infinite;
+}
+
+/* Voice-dot bloom (SVG halo). Breathes via voice-pulse-bloom. */
+.voice-dot-glow {
+  transform-origin: center center;
+  transform-box: fill-box;
+  animation: voice-pulse-bloom 1.8s ease-in-out infinite;
+}
+
+/* ─── mobile: illustration layer moves inline, full opacity ───
+   Below 768px, the briefing drops into the normal document flow
+   AFTER the text column (because the text column is z-10 relative
+   and the illustration layer is static/relative). Watermark
+   treatment disappears entirely — the briefing becomes a real
+   proof-point column. */
+@media (max-width: 767px) {
+  .hero-illustration-layer {
+    position: relative;
+    inset: auto;
+    overflow: visible;
+    margin-top: clamp(28px, 8vw, 40px);
+  }
+  /* Raised specificity to beat the dark-mode watermark rule. */
+  html .hero-briefing,
+  html[data-theme="dark"] .hero-briefing {
+    position: relative;
+    inset: auto;
+    display: block;
+    opacity: 1;
+    padding: clamp(20px, 5vw, 28px) 0 0 0;
+    border-top: 1px solid var(--color-border-light);
+    justify-content: flex-start;
+  }
+  .hero-briefing-inner {
+    max-width: 100%;
+    font-size: 15px;
+  }
+  .hero-briefing-list { gap: 10px; }
+}
+
+/* Inline voice-dot used as punctuation — period of the headline,
+   period of the price-tag, badge indicator. Same pulse, phase-aligned.
+   Three sizes: xl (end of mega-headline), sm (badge + price), sm-minor
+   (future use). */
+.voice-dot-punct {
+  display: inline-block;
+  vertical-align: baseline;
+  border-radius: 9999px;
+  background: var(--color-brand);
+  transform-origin: center center;
+  animation: voice-pulse 1.8s ease-in-out infinite;
+  box-shadow: 0 0 0 0 rgba(184, 90, 58, 0.0);
+  flex-shrink: 0;
+}
+.voice-dot-punct-sm {
+  width: 7px;
+  height: 7px;
+  margin-inline-start: 2px;
+}
+.voice-dot-punct-md {
+  width: 10px;
+  height: 10px;
+  translate: 0 -2px;
+  margin-inline-end: 4px;
+}
+.voice-dot-punct-xl {
+  /* Scales with the headline's font-size via em so the "period"
+     always feels proportioned to the type. Vertical-align drops it
+     to the typographic baseline. */
+  width: 0.22em;
+  height: 0.22em;
+  margin-inline-start: 0.08em;
+  vertical-align: 0.05em;
+  box-shadow:
+    0 0 0 0.14em rgba(184, 90, 58, 0.08),
+    0 0 0.8em rgba(184, 90, 58, 0.18);
+}
+
+/* Hero headline — big, not mega. BRAND.md §6 says mega-scale type
+   is "hero moments only, once per page max"; keeping the scale
+   restrained so the editorial composition reads as a magazine
+   headline, not a splash page. Tight leading, negative tracking. */
+.hero-headline {
+  font-size: clamp(36px, 6.4vw, 68px);
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+  font-weight: 800;
+  color: var(--color-text-primary);
+}
+.hero-headline .block { display: block; }
+
+/* Hero lede — narrower measure, larger than body, BRAND's "45–75ch
+   measure, lead paragraphs 55–65ch." */
+.hero-lede {
+  font-size: clamp(16px, 2.6vw, 19px);
+  line-height: 1.55;
+  max-width: 58ch;
+}
+
+/* Brand's one signature animation. BRAND.md §Motion, verbatim. All
+   voice dots (SVG, punctuation inlines, badge indicator) key off
+   this single keyframe so the whole page breathes on one beat. */
+@keyframes voice-pulse {
+  0%, 100% { transform: scale(1);    opacity: 1;    }
+  50%      { transform: scale(0.90); opacity: 0.82; }
+}
+@keyframes voice-pulse-bloom {
+  0%, 100% { transform: scale(1);    opacity: 0.55; }
+  50%      { transform: scale(1.12); opacity: 0.90; }
+}
+
+/* Reduced-motion: freeze all voice-dot animation. Global rule in
+   the sheet already flattens animations; this makes intent explicit. */
+@media (prefers-reduced-motion: reduce) {
+  .voice-dot, .voice-dot-glow, .voice-dot-punct { animation: none; }
+}
+
+/* ═══════════════════════════════════════════
    BUTTONS
    ═══════════════════════════════════════════ */
 

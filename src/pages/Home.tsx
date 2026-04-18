@@ -6,6 +6,7 @@ import { LanguageSwitcher } from '../i18n/LanguageSwitcher'
 import { ThemeSwitcher } from '../theme/ThemeSwitcher'
 import { SeoHead } from '../i18n/SeoHead'
 import { ctaHref, hasAccount } from '../i18n/appUrl'
+import { HeroBubble } from '../components/HeroBubble'
 
 export function Home() {
   return (
@@ -50,51 +51,53 @@ function Nav() {
 
 function Hero() {
   return (
-    <section className="pt-12 sm:pt-16 md:pt-24 pb-16 section-gradient-hero relative overflow-hidden">
+    <section className="hero-section relative overflow-hidden pt-14 sm:pt-20 md:pt-28 pb-20 md:pb-28">
+      {/* Paper-grain overlay — BRAND §3 "Pentagram/Shinola move."
+          SVG feTurbulence applied as a full-bleed, low-opacity layer
+          so cream feels printed-on-paper, not rendered-on-screen. */}
+      <div className="hero-paper-grain" aria-hidden="true" />
+
       <div className="max-w-[1080px] mx-auto px-4 sm:px-6 md:px-8 relative">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-12 items-center">
-          <div className="text-center md:text-start">
-            <div className="glass-pill inline-flex items-center gap-1.5 text-brand px-3.5 py-1.5 rounded-full text-[13px] font-semibold mb-5 sm:mb-6">
-              <span className="w-1.5 h-1.5 rounded-full bg-brand animate-pulse" />
-              {m.hero_badge()}
-            </div>
-            <h1 className="text-[clamp(28px,7.5vw,50px)] font-extrabold leading-[1.12] tracking-[-1px] mb-5 break-words">
-              {m.hero_headline_line1()}<br />
-              <span className="relative inline-block">
-                {m.hero_headline_line2()}
-                <span className="absolute bottom-1 inset-x-[-0.25rem] h-3.5 rounded -z-10 bg-gradient-to-r rtl:bg-gradient-to-l from-brand/20 to-brand/5" />
-              </span>
-            </h1>
-            <p className="text-[clamp(15px,3.6vw,17px)] text-text-secondary leading-relaxed mb-7">
-              {m.hero_description()}
-            </p>
-            <div className="flex flex-col items-center md:items-start gap-2.5">
-              <a href={ctaHref()} className="btn-brand">{hasAccount() ? m.hero_cta_login() : m.hero_cta()}</a>
-              <span className="text-[13px] text-text-muted">{m.hero_price_note()}</span>
-            </div>
+        {/* Text column — sits in normal flow on mobile, sits above
+            the illustration watermark via z-index on desktop. */}
+        <div className="hero-text-col max-w-[760px] text-center md:text-start relative z-10">
+          <div className="glass-pill inline-flex self-center md:self-start items-center gap-1.5 text-brand px-3.5 py-1.5 rounded-full text-[13px] font-semibold mb-6 sm:mb-8">
+            <span className="voice-dot-punct voice-dot-punct-sm" aria-hidden="true" />
+            {m.hero_badge()}
           </div>
-          <div className="mx-auto w-full max-w-[560px]">
-            <div className="relative w-full" style={{ aspectRatio: '16 / 11' }}>
-              <img
-                src="/hero.jpg"
-                alt={m.hero_img_alt()}
-                loading="eager"
-                fetchPriority="high"
-                decoding="async"
-                sizes="(max-width: 768px) 100vw, 540px"
-                className="absolute inset-0 w-full h-full object-cover rounded-[22px] shadow-[0_24px_64px_rgba(0,0,0,0.14),0_8px_24px_rgba(0,0,0,0.06)] md:hover:scale-[1.02] md:hover:-translate-y-1 md:transition-all md:duration-500 block dark:hidden"
-              />
-              <img
-                src="/hero-dark.jpg"
-                alt={m.hero_img_alt()}
-                loading="eager"
-                fetchPriority="high"
-                decoding="async"
-                sizes="(max-width: 768px) 100vw, 540px"
-                className="absolute inset-0 w-full h-full object-cover rounded-[22px] shadow-[0_24px_64px_rgba(0,0,0,0.14),0_8px_24px_rgba(0,0,0,0.06)] md:hover:scale-[1.02] md:hover:-translate-y-1 md:transition-all md:duration-500 hidden dark:block"
-              />
-            </div>
+
+          {/* Mega-scale headline. The ending sentence gets a
+              terracotta voice-dot as its period — synchronised with
+              every other voice dot on the page. One heartbeat. */}
+          <h1 className="hero-headline font-extrabold break-words mb-6 sm:mb-7">
+            <span className="block">{m.hero_headline_line1()}</span>
+            <span className="block">
+              {m.hero_headline_line2()}
+              <span className="voice-dot-punct voice-dot-punct-xl" aria-hidden="true" />
+            </span>
+          </h1>
+
+          <p className="hero-lede text-text-secondary leading-[1.55] mb-8 sm:mb-9 max-w-[560px] md:max-w-[620px] mx-auto md:mx-0">
+            {m.hero_description()}
+          </p>
+
+          <div className="flex flex-col items-center md:items-start gap-3">
+            <a href={ctaHref()} className="btn-brand">
+              {hasAccount() ? m.hero_cta_login() : m.hero_cta()}
+            </a>
+            <span className="text-[13px] text-text-muted inline-flex items-center gap-1.5">
+              <span className="voice-dot-punct voice-dot-punct-sm" aria-hidden="true" />
+              {m.hero_price_note()}
+            </span>
           </div>
+        </div>
+
+        {/* Morning briefing — "a real worker who lives inside WhatsApp."
+            Desktop: absolute-positioned watermark behind the headline,
+            ~32% opacity. Mobile: relative, full opacity, below CTA —
+            the first proof point rather than decorative texture. */}
+        <div className="hero-illustration-layer" aria-hidden="true">
+          <HeroBubble />
         </div>
       </div>
     </section>

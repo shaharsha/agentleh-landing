@@ -37,7 +37,7 @@ export function SeoHead({ title, description }: { title: string; description: st
       <meta property="og:locale" content={ogLocale} />
       <meta property="og:url" content={selfUrl} />
       <meta property="og:type" content="website" />
-      <meta property="og:site_name" content="Agentiko" />
+      <meta property="og:site_name" content="agentiko" />
       <meta property="og:image" content={OG_IMAGE} />
       <meta property="og:image:width" content="1200" />
       <meta property="og:image:height" content="630" />

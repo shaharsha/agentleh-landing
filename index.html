@@ -38,15 +38,32 @@
     <script>
       // Resolve the active theme BEFORE React hydrates. Prevents a flash
       // of light content for dark-pinned visitors (and vice-versa) on
-      // the SSG-rendered HTML. Must match the resolution order in
-      // src/theme/useTheme.tsx:
-      //   1. localStorage['agentleh.theme'] if 'light' or 'dark'
-      //   2. prefers-color-scheme media query (the 'auto' path)
+      // the SSG-rendered HTML. Must match src/theme/store.ts::readStoredTheme:
+      //   1. cookie `agentleh.theme` — shared with app.agentiko.io via
+      //      Domain=.agentiko.io
+      //   2. localStorage['agentleh.theme'] — per-origin fallback for
+      //      users who set a pick before the cookie rollout
+      //   3. prefers-color-scheme media query (the 'auto' path)
       (function () {
         try {
+          function readCookie(name) {
+            var prefix = name + '=';
+            var parts = document.cookie.split(';');
+            for (var i = 0; i < parts.length; i++) {
+              var p = parts[i].replace(/^\s+/, '');
+              if (p.indexOf(prefix) === 0) {
+                try { return decodeURIComponent(p.slice(prefix.length)); }
+                catch (e) { return p.slice(prefix.length); }
+              }
+            }
+            return null;
+          }
+          var cookie = readCookie('agentleh.theme');
           var saved = localStorage.getItem('agentleh.theme');
           var mode;
-          if (saved === 'light' || saved === 'dark') {
+          if (cookie === 'light' || cookie === 'dark') {
+            mode = cookie;
+          } else if (saved === 'light' || saved === 'dark') {
             mode = saved;
           } else {
             mode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
@@ -60,28 +77,49 @@
       })();
     </script>
     <script>
-      // On first visit, if the visitor's browser prefers English, hand
-      // them off to /en so they see the right language immediately.
-      // Runs only at the exact root (/) and only once per visit: we set a
-      // session marker so clicking "עב" in the switcher doesn't bounce
-      // back to /en. The marker lives in sessionStorage so a brand-new
-      // tab tomorrow re-detects.
+      // On first visit to the root, hand off to /en if the visitor's
+      // expressed or detected language is English. The landing's
+      // rendered locale is URL-driven (Paraglide), so only the root has
+      // ambiguity — non-root paths (/en/terms, /privacy) keep respecting
+      // the URL, which keeps shared links working.
       //
-      // Resolution rules (must match the app's pickInitialLang):
-      //   1. If PARAGLIDE_LOCALE is in localStorage → honor it
-      //   2. Walk navigator.languages, first supported primary tag wins
-      //   3. Default: Hebrew (no redirect)
+      // Resolution (matches the app's pickInitialLang order):
+      //   1. cookie `agentleh.lang` — shared with app.agentiko.io via
+      //      Domain=.agentiko.io. An English pick on the app lands
+      //      users on /en here.
+      //   2. legacy PARAGLIDE_LOCALE in localStorage (pre-cookie users)
+      //   3. Walk navigator.languages, first supported primary tag wins
+      //   4. Default: Hebrew (no redirect)
+      //
+      // sessionStorage marker stops an `English` auto-redirect from
+      // fighting a same-tab click on עב — without it the switcher would
+      // navigate to /, then the script would bounce back to /en.
       (function () {
         try {
           if (sessionStorage.getItem('agentleh.landing.detected')) return;
           if (location.pathname !== '/') return;
-          var saved = localStorage.getItem('PARAGLIDE_LOCALE');
-          if (saved === 'en') {
+          function readCookie(name) {
+            var prefix = name + '=';
+            var parts = document.cookie.split(';');
+            for (var i = 0; i < parts.length; i++) {
+              var p = parts[i].replace(/^\s+/, '');
+              if (p.indexOf(prefix) === 0) {
+                try { return decodeURIComponent(p.slice(prefix.length)); }
+                catch (e) { return p.slice(prefix.length); }
+              }
+            }
+            return null;
+          }
+          var pick = readCookie('agentleh.lang');
+          if (pick !== 'he' && pick !== 'en') {
+            pick = localStorage.getItem('PARAGLIDE_LOCALE');
+          }
+          if (pick === 'en') {
             sessionStorage.setItem('agentleh.landing.detected', '1');
             location.replace('/en' + location.search + location.hash);
             return;
           }
-          if (saved === 'he') return;
+          if (pick === 'he') return;
           var langs = navigator.languages && navigator.languages.length
             ? navigator.languages
             : [navigator.language || 'he'];

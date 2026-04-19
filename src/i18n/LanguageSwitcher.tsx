@@ -6,6 +6,7 @@ import {
   deLocalizeHref,
   type Locale,
 } from '../paraglide/runtime'
+import { LANG_COOKIE, writeCookie } from '../lib/prefsCookie'
 
 /**
  * Compact language switcher — single globe-icon button that opens a
@@ -47,6 +48,15 @@ export function LanguageSwitcher() {
   const go = (target: Locale) => {
     setOpen(false)
     if (target === lang) return
+    // Share the pick with the app (different origin) via a cookie
+    // scoped to `.agentiko.io`. Mirror to the app-side localStorage key
+    // name too so a same-host dev tab picks it up; harmless on prod.
+    writeCookie(LANG_COOKIE, target)
+    try {
+      window.localStorage.setItem(LANG_COOKIE, target)
+    } catch {
+      // localStorage disabled — cookie is the real source of truth
+    }
     const canonical = deLocalizeHref(location.pathname + location.search)
     const next = localizeHref(canonical, { locale: target })
     navigate(next)

@@ -11,9 +11,14 @@
  *      data-theme before first paint; the React store just mirrors
  *      what's already on <html> so nothing flashes.
  *
- * Persistence: `localStorage['agentleh.theme']` holds the user's
- * explicit pick. Auto clears the key — that's the default.
+ * Persistence: cookie `agentleh.theme` (scoped to `.agentiko.io`) is
+ * the cross-origin source of truth, shared with the app. localStorage
+ * mirrors it on the local origin for cross-tab sync via the `storage`
+ * event and backward-compat for users who set a pick pre-cookie rollout.
+ * Auto clears both — that's the default.
  */
+
+import { THEME_COOKIE, clearCookie, readCookie, writeCookie } from '../lib/prefsCookie'
 
 export type Theme = 'auto' | 'light' | 'dark'
 
@@ -40,9 +45,18 @@ function computeResolved(theme: Theme): 'light' | 'dark' {
 
 function readStoredTheme(): Theme {
   if (typeof window === 'undefined') return 'auto'
+  // Cross-origin cookie wins — shared with the app.
+  const cookie = readCookie(THEME_COOKIE)
+  if (cookie === 'light' || cookie === 'dark') return cookie
+  // localStorage fallback for users who set a pick pre-cookie rollout.
+  // Seed the cookie so the next visit to the app picks it up.
   try {
     const v = window.localStorage.getItem(LS_KEY)
-    if (v === 'light' || v === 'dark' || v === 'auto') return v
+    if (v === 'light' || v === 'dark') {
+      writeCookie(THEME_COOKIE, v)
+      return v
+    }
+    if (v === 'auto') return v
   } catch {
     // localStorage disabled — fall through to default
   }
@@ -108,6 +122,9 @@ export function setTheme(next: Theme) {
   } catch {
     // localStorage disabled — in-memory state still updates
   }
+  // Cross-origin share with the app.
+  if (next === 'auto') clearCookie(THEME_COOKIE)
+  else writeCookie(THEME_COOKIE, next)
   notify()
 }
 
